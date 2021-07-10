@@ -1,6 +1,6 @@
 import axios from "axios";
 const API = axios.create({
-  baseURL: "http://carttest.test/public/api/",
+  baseURL: "https://nkitservice.com/relax/api/",
   headers: {
     "Content-type": "application/json",
     "Access-Control-Allow-Origin": "*",

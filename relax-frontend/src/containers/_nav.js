@@ -1,21 +1,23 @@
-import React from 'react'
-import CIcon from '@coreui/icons-react'
+import React from "react";
+import CIcon from "@coreui/icons-react";
 
-const _nav =  [
-  
+const _nav = [
   {
-    _tag: 'CSidebarNavItem',
-    name: 'IPG Provider',
-    to: '/ipg-provider',
-    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>,
-   
-  },
-  {
-    _tag: 'CSidebarNavDivider'
+    _tag: "CSidebarNavItem",
+    name: "Dashboard",
+    to: "/dashboard",
+    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
   },
 
-  
- 
-]
+  {
+    _tag: "CSidebarNavItem",
+    name: "Dashboard",
+    to: "/ipg-provider",
+    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
+  },
+  {
+    _tag: "CSidebarNavDivider",
+  },
+];
 
-export default _nav
+export default _nav;

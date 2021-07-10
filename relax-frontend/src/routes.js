@@ -1,15 +1,22 @@
-import React from 'react';
-
-
+import React from "react";
 
 //components
-const IpgProvider = React.lazy(() => import('./Components/views/ipgProvider/IpgProvider'));
+const IpgProvider = React.lazy(() =>
+  import("./Components/views/ipgProvider/IpgProvider")
+);
+const DashBoard = React.lazy(() =>
+  import("./Components/views/Dashboard/Dashboard")
+);
 
 const routes = [
-  { path: '/', exact: true, name: 'Home' },
+  { path: "/", exact: true, name: "Homes", exact: "exact" },
 
-  { path: '/ipg-provider', name: 'IpgProvider', component: IpgProvider },
- 
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    component: DashBoard,
+    exact: "exact",
+  },
 ];
 
 export default routes;
