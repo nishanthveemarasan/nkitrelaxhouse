@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 const useFormValidate = () => {
   const [inputValue, setInputValue] = useState("");
   const [inputIsTouched, setInputIsTouched] = useState(false);

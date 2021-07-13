@@ -1,7 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { getDate } from "src/custom-functions";
 import classes from "./Product.module.css";
-import { productStoreAction } from "src/store/store";
 import { getModalData } from "src/store/product-slice";
 import ActionButton from "src/Components/UI/ActionButton/ActionButton";
 import CSpinner from "src/Components/UI/Spinner/CSpinner";

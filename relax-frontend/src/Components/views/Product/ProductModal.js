@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {  useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import CAlert from "src/Components/UI/Alert/CAlert";
 import { FormInput } from "src/Components/UI/Input/FormInput";
@@ -11,24 +11,18 @@ const ProductModal = () => {
     inputValue: productName,
     setInputValue: setProductName,
     inputChangeHandler: productNameChangeHandler,
-    reset: productNameRestHandler,
   } = useFormValidate();
   const {
     inputValue: productCode,
     setInputValue: setProductCode,
     inputChangeHandler: productCodeChangeHandler,
-    reset: productCodeRestHandler,
   } = useFormValidate();
   const {
     inputValue: stock,
     setInputValue: setstock,
     inputChangeHandler: stockChangeHandler,
-    reset: stockRestHandler,
   } = useFormValidate();
-  const [modalState, setModalState] = useState({
-    isLoading: false,
-    hideForm: true,
-  });
+
   const mapStateToProps = (state) => {
     return {
       modalData: state.productStore.modalData,
@@ -67,7 +61,6 @@ const ProductModal = () => {
       action={state.modalData.modalAction}
       size="md"
       onSubmitHandler={onSubmitHandler}
-      loading={modalState.isLoading}
     >
       {state.initialLoad.action === "Delete" && (
         <CAlert
