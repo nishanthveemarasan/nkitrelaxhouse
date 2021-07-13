@@ -28,5 +28,7 @@ const getStatus = (value) => {
       return <CBadge color="info">Packed</CBadge>;
     case "sent":
       return <CBadge color="success">Sent</CBadge>;
+    default:
+      return false;
   }
 };

@@ -1,21 +1,23 @@
 import React from "react";
 
 //components
-const IpgProvider = React.lazy(() =>
-  import("./Components/views/ipgProvider/IpgProvider")
-);
 const DashBoard = React.lazy(() =>
   import("./Components/views/Dashboard/Dashboard")
 );
+const Products = React.lazy(() => import("./Components/views/Product/Product"));
 
 const routes = [
-  { path: "/", exact: true, name: "Homes", exact: "exact" },
+  { path: "/", exact: true, name: "Home" },
 
   {
     path: "/dashboard",
     name: "Dashboard",
     component: DashBoard,
-    exact: "exact",
+  },
+  {
+    path: "/product",
+    name: "Product",
+    component: Products,
   },
 ];
 

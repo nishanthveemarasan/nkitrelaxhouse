@@ -8,3 +8,5 @@ const API = axios.create({
 });
 
 export default API;
+//http://relaxreact.test/react-backend/public/api/
+//https://nkitservice.com/relax/api/

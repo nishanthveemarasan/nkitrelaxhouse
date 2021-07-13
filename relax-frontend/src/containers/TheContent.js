@@ -1,10 +1,9 @@
 import React, { Suspense } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import {  Route, Switch } from "react-router-dom";
 import { CContainer, CFade } from "@coreui/react";
 
 // routes config
 import routes from "../routes";
-import Page404 from "src/views/pages/page404/Page404";
 
 const loading = (
   <div className="pt-3 text-center">
