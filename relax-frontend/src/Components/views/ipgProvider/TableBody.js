@@ -41,5 +41,7 @@ const getBadge = (value) => {
       return <Badge variant="success">Active</Badge>;
     case "0":
       return <Badge variant="danger">Inactive</Badge>;
+    default:
+      return false;
   }
 };
