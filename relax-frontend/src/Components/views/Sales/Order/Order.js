@@ -4,6 +4,7 @@ import Loader from "src/Components/UI/Loader/Loader";
 import CTable from "src/Components/UI/Table/CTable";
 import Pagination from "src/Components/UI/Table/Pagination";
 import { getSaleData } from "src/store/sale-slice";
+import SaleActionModal from "../Modal/SaleActionModal";
 import OrderTableBody from "./OrderTableBody";
 
 const Order = () => {
@@ -27,6 +28,7 @@ const Order = () => {
   };
   return (
     <>
+      <SaleActionModal />
       {!state.isDataLoaded && <Loader />}
       {state.isDataLoaded && (
         <CTable
