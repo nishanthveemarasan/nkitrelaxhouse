@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import {  Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { CContainer, CFade } from "@coreui/react";
 
 // routes config
@@ -42,5 +42,5 @@ const TheContent = () => {
     </main>
   );
 };
-
+//export default TheContent;
 export default React.memo(TheContent);

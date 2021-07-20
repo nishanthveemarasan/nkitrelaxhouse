@@ -48,6 +48,7 @@ const Product = () => {
       </div>
       {!state.isDataChanged && <Loader />}
       {state.isDataChanged && (
+        
         <CTable
           header={[
             "#",

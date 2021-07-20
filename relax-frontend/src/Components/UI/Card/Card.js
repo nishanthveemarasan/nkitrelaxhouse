@@ -3,7 +3,7 @@ import classes from "./Card.module.css";
 const Card = (props) => {
   return (
     <CCard>
-      <CCardHeader color="dark">
+      <CCardHeader color={props.color}>
         <h5 className={classes.cardHeader}>{props.header}</h5>
       </CCardHeader>
       <CCardBody>{props.children}</CCardBody>
