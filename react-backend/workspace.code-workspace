@@ -1,0 +1,13 @@
+{
+  "folders": [
+	{
+		"path": "."
+	},
+	{
+		"path": "..\\react-frontend"
+	},
+	{
+		"path": "..\\..\\vuejs\\cart-dna-frontend"
+	}
+]
+}

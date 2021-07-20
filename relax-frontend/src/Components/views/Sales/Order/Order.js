@@ -1,9 +1,12 @@
 import { useEffect } from "react";
+import { Col, Row } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
+import CButton from "src/Components/UI/Button/Button";
 import Loader from "src/Components/UI/Loader/Loader";
 import CTable from "src/Components/UI/Table/CTable";
 import Pagination from "src/Components/UI/Table/Pagination";
-import { getSaleData } from "src/store/sale-slice";
+import { getSaleData, openAddOrderModal } from "src/store/sale-slice";
+import CreateSaleModal from "../Modal/CreateSaleModal";
 import SaleActionModal from "../Modal/SaleActionModal";
 import OrderTableBody from "./OrderTableBody";
 
@@ -13,22 +16,40 @@ const Order = () => {
       isDataLoaded: state.saleStore.isDataLoaded,
       saleData: state.saleStore.saleData,
       reRunComponent: state.saleStore.reRunComponent,
+      addSaleModalData: state.saleStore.addSaleModalData,
     };
   };
   const state = useSelector(mapStateToProps);
   const dispatch = useDispatch();
   useEffect(() => {
+    console.log(state.reRunComponent);
     if (state.reRunComponent) {
       dispatch(getSaleData());
     }
   }, [state.reRunComponent, dispatch]);
+
   const pageChangeHandler = (url) => {
     const getParam = url.split("?")[1];
     dispatch(getSaleData(getParam));
   };
+
+  const openCreateModalHandler = () => {
+    dispatch(openAddOrderModal());
+  };
   return (
     <>
       <SaleActionModal />
+      <CreateSaleModal />
+      <Row>
+        <Col sm={12} className="text-right mb-3">
+          <CButton
+            name="Add Order"
+            color="success"
+            click={openCreateModalHandler}
+            loading={state.addSaleModalData.isLoading}
+          />
+        </Col>
+      </Row>
       {!state.isDataLoaded && <Loader />}
       {state.isDataLoaded && (
         <CTable

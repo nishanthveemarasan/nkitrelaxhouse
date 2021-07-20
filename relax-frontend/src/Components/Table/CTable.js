@@ -5,7 +5,7 @@ const CTable = (props) => {
   });
   return (
     <>
-      <Table responsive="md" striped bordered hover>
+      <Table responsive="lg" striped bordered hover>
         <thead variant="info">
           <tr>{Header}</tr>
         </thead>

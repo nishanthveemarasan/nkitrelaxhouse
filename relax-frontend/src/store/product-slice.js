@@ -21,6 +21,12 @@ const initialState = {
     action: "",
     id: 0,
   },
+  updateData: {
+    isLoading: false,
+    dataUpdated: false,
+    msg: "",
+    color: "",
+  },
 };
 
 const productSlice = createSlice({
@@ -59,6 +65,12 @@ const productSlice = createSlice({
         action: "",
         id: 0,
       };
+      state.updateData = {
+        isLoading: false,
+        dataUpdated: false,
+        msg: "",
+        color: "",
+      };
     },
     isDataLoading(state) {
       state.isLoading = true;
@@ -74,6 +86,24 @@ const productSlice = createSlice({
         loading: action.payload.value,
         action: action.payload.type,
         id: action.payload.id,
+      };
+    },
+    initiateUpdateData(state) {
+      state.reRunData = false;
+      state.updateData = {
+        ...state.updateData,
+        isLoading: true,
+        dataUpdated: false,
+      };
+    },
+    DataIsUpdated(state, action) {
+      state.reRunData = true;
+      state.updateData = {
+        ...state.updateData,
+        isLoading: false,
+        dataUpdated: true,
+        msg: action.payload.msg,
+        color: action.payload.color,
       };
     },
   },
@@ -152,4 +182,19 @@ export const getModalData = (data) => {
   //     dispatch(productStoreAction.modalOpen(output));
   //   };
   // }
+};
+
+export const updateProductData = (data) => {
+  return (dispatch) => {
+    dispatch(productStoreAction.initiateUpdateData());
+    API.post("edit-product-details", data).then((response) => {
+      console.log(response.data.data.msg);
+      dispatch(
+        productStoreAction.DataIsUpdated({
+          msg: response.data.data.msg,
+          color: "success",
+        })
+      );
+    });
+  };
 };

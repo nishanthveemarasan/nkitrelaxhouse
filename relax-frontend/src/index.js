@@ -11,12 +11,15 @@ import { icons } from "./assets/icons";
 
 import { Provider } from "react-redux";
 import store from "./store/store";
+import { BrowserRouter } from "react-router-dom";
 
 React.icons = icons;
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>,
   document.getElementById("root")
 );

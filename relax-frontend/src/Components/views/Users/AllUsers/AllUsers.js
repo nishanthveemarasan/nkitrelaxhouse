@@ -4,6 +4,7 @@ import Loader from "src/Components/UI/Loader/Loader";
 import CTable from "src/Components/UI/Table/CTable";
 import Pagination from "src/Components/UI/Table/Pagination";
 import { getUserData } from "src/store/user-slice";
+import UserEditModal from "../Modal/UserEditModal";
 import UserTableBody from "./UserTableBody";
 const AllUsers = () => {
   const mapStateToProps = (state) => {
@@ -29,6 +30,7 @@ const AllUsers = () => {
   };
   return (
     <>
+      <UserEditModal />
       {!state.isUserDataLoaded && <Loader />}
       {state.isUserDataLoaded && (
         <CTable
@@ -41,6 +43,7 @@ const AllUsers = () => {
             "Job Title",
             "Phone Number",
             "Role",
+            "Status",
             "Action",
           ]}
         >
