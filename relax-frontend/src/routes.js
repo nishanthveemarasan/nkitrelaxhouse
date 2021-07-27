@@ -76,7 +76,7 @@ const routes = [
   },
   {
     path: "/admin/user",
-    name: "PostFilter",
+    name: "User",
     component: UserDetail,
   },
 ];

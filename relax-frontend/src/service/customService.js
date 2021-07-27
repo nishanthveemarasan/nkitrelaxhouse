@@ -23,3 +23,13 @@ export const getUpperCaseString = (string, seperator) => {
   }
   return finalString.trim();
 };
+export const generateRandomPassword = (length) => {
+  const string =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*";
+
+  let password = "";
+  for (let i = 0; i < length; i++) {
+    password += string.charAt(Math.floor(Math.random() * string.length));
+  }
+  return password;
+};

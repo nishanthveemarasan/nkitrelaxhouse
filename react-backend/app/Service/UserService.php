@@ -74,11 +74,12 @@ class UserService
 
     public function updateUser($data)
     {
+        // return array('msg' => "Data has been updated Successfully!!!");
         $userId = $data['user_id'];
         unset($data['user_id']);
         $updateUser =  $this->userRepository->updateUser($userId, $data);
         if ($updateUser) {
-            return array('msg' => "User's Data has been updated Successfully!!!");
+            return array('msg' => "Data has been updated Successfully!!!");
         }
     }
     public function checkUsername($data)
@@ -107,6 +108,13 @@ class UserService
         $updateImage =  $this->userRepository->updateProfileImage($id, $imageUrl);
         if ($updateImage) {
             return array('msg' => "http://relaxreact.test/react-backend/storage/app/public/" . $path);
+        }
+    }
+    public function updatePassword($id, $password)
+    {
+        $update = $this->userRepository->updatePassword($id, $password);
+        if ($update) {
+            return array('msg' => "Password has been reset successfully!!");
         }
     }
 }

@@ -6,6 +6,7 @@ use Throwable;
 use App\Service\UserService;
 use Illuminate\Http\Request;
 use App\Service\APIResponseService;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -103,7 +104,9 @@ class userController extends Controller
     public function updateUser(Request $request)
     {
         try {
+            $userId = 1;
             $data = $request->all();
+            $data['user_id'] = $userId;
             $editUserRole = $this->userService->updateUser($data);
             $response =  $this->apiResponseService->success(200, $editUserRole);
             return $response;
@@ -160,9 +163,9 @@ class userController extends Controller
         try {
             $imagePath = $request->file('file');
             $imageName = $imagePath->getClientOriginalName();
-            $userId = $request['userId'];
+            $userId = 1;
             $path = $request->file('file')->storeAs('profileImage', $imageName, 'public');
-            $imageUrl = "http://relaxreact.test/react-backend/storage/app/public/" . $path;
+            $imageUrl = "http://nkservice.test/react-backend/storage/app/public/" . $path;
             $data = array(
                 'userId' => $userId,
                 'imageUrl' => $imageUrl
@@ -205,6 +208,28 @@ class userController extends Controller
         $token->revoke();
         $response = ['message' => 'You have been successfully logged out!'];
         return response($response, 200);
+    }
+
+    public function reset(Request $request)
+    {
+        try {
+            $id = 1;
+            $data = $request->all();
+            $validation = Validator::make(
+                $data,
+                ['password' => 'required|confirmed'],
+                $messages = ['password' => "Password"],
+                []
+            );
+            if ($validation->fails()) {
+                return $this->apiResponseService->failed($validation->errors(), 500);
+            }
+            $update = $this->userService->updatePassword($id, $data['password']);
+            $response =  $this->apiResponseService->success(200, $update);
+            return $response;
+        } catch (Exception $e) {
+            return $this->apiResponseService->failed($e->getMessage(), 500);
+        }
     }
 
     public function error()
