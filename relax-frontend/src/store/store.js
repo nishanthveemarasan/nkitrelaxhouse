@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import commentSlice from "./comment-slice";
 import dashboardSlice from "./dashboard-slice";
 import itemSlice from "./item-slice";
 import postSlice from "./post.slice";
@@ -20,6 +21,7 @@ const store = configureStore({
     postStore: postSlice.reducer,
     registerStore: registerSlice.reducer,
     itemStore: itemSlice.reducer,
+    commentStore: commentSlice.reducer,
   },
 });
 
@@ -32,4 +34,5 @@ export const userStoreAction = userSlice.actions;
 export const postStoreAction = postSlice.actions;
 export const registerStoreAction = registerSlice.actions;
 export const itemStoreAction = itemSlice.actions;
+export const commentStoreAction = commentSlice.actions;
 export default store;

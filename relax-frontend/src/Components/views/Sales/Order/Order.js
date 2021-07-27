@@ -6,6 +6,7 @@ import Loader from "src/Components/UI/Loader/Loader";
 import CTable from "src/Components/UI/Table/CTable";
 import Pagination from "src/Components/UI/Table/Pagination";
 import { getSaleData, openAddOrderModal } from "src/store/sale-slice";
+import { saleStoreAction } from "src/store/store";
 import CreateSaleModal from "../Modal/CreateSaleModal";
 import SaleActionModal from "../Modal/SaleActionModal";
 import OrderTableBody from "./OrderTableBody";
@@ -22,15 +23,25 @@ const Order = () => {
   const state = useSelector(mapStateToProps);
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log(state.reRunComponent);
-    if (state.reRunComponent) {
-      dispatch(getSaleData());
+    if (state.reRunComponent.isDataChanged) {
+      const data = {
+        param: state.reRunComponent.queryParam,
+      };
+      dispatch(getSaleData(data));
     }
-  }, [state.reRunComponent, dispatch]);
+  }, [
+    state.reRunComponent.isDataChanged,
+    dispatch,
+    state.reRunComponent.queryParam,
+  ]);
 
   const pageChangeHandler = (url) => {
-    const getParam = url.split("?")[1];
-    dispatch(getSaleData(getParam));
+    const param = url.split("?")[1];
+    dispatch(saleStoreAction.updateParam({ param }));
+    const data = {
+      param,
+    };
+    dispatch(getSaleData(data));
   };
 
   const openCreateModalHandler = () => {
@@ -73,14 +84,3 @@ const Order = () => {
   );
 };
 export default Order;
-/**
- * created_at: "2021-06-28T00:42:47.000000Z"
-id: 210
-itemname: "B9 Armchair - Natural"
-note: null
-order_number: "212125"
-packed_by: null
-sell_type: "received"
-sellcount: "5"
-updated_at: "2021-06-28T00:42:47.000000Z"
- */

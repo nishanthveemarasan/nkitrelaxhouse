@@ -22,10 +22,14 @@ class PostService
         }
     }
 
-    public function getAllPosts()
+    public function getAllPosts($id)
     {
         try {
-            return $this->postRepository->getAllPosts();
+            if ($id === "all") {
+                return $this->postRepository->getAllPosts();
+            } else {
+                return $this->postRepository->getSingleUserPosts($id);
+            }
         } catch (Throwable $e) {
             return $e;
         }
@@ -34,6 +38,14 @@ class PostService
     {
         try {
             return $this->postRepository->getUserPosts($id);
+        } catch (Throwable $e) {
+            return $e;
+        }
+    }
+    public function getSinglePost($id)
+    {
+        try {
+            return $this->postRepository->getSinglePost($id);
         } catch (Throwable $e) {
             return $e;
         }

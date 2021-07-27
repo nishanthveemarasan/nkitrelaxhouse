@@ -10,34 +10,74 @@ const AllUsers = React.lazy(() =>
   import("./Components/views/Users/AllUsers/AllUsers")
 );
 const AllPosts = React.lazy(() => import("./Components/views/Posts/AllPosts"));
+const Comments = React.lazy(() =>
+  import("./Components/views/Comments/Comment")
+);
+const SinglePost = React.lazy(() =>
+  import("./Components/views/Posts/SinglePost/SinglePost")
+);
+const CommentFilter = React.lazy(() =>
+  import("./Components/views/Comments/Filter/CommentFilter")
+);
+const PostFilter = React.lazy(() =>
+  import("./Components/views/Posts/Filter/FilterPost")
+);
+const UserDetail = React.lazy(() =>
+  import("./Components/views/Users/UserDetail/UserDetail")
+);
 
 const routes = [
-  { path: "/", exact: true, name: "Home" },
+  { path: "/admin", exact: true, name: "Home" },
 
   {
-    path: "/dashboard",
+    path: "/admin/dashboard",
     name: "Dashboard",
     component: DashBoard,
   },
   {
-    path: "/product",
+    path: "/admin/product",
     name: "Product",
     component: Products,
   },
   {
-    path: "/sale/orders",
+    path: "/admin/sale/orders",
     name: "Orders",
     component: Orders,
   },
   {
-    path: "/users/all",
+    path: "/admin/users/all",
     name: "AllUsers",
     component: AllUsers,
   },
   {
-    path: "/posts/all",
+    path: "/admin/posts/all",
     name: "AllPosts",
     component: AllPosts,
+  },
+  {
+    path: "/admin/comment/all",
+    name: "AllComments",
+    component: Comments,
+  },
+  {
+    path: "/admin/singlePost",
+    name: "SinglePost",
+    component: SinglePost,
+  },
+  {
+    path: "/admin/comment-filter",
+    name: "CommentFilter",
+    component: CommentFilter,
+  },
+  {
+    path: "/admin/post-filter",
+    name: "PostFilter",
+    component: PostFilter,
+  },
+  {
+    path: "/admin/user",
+    name: "PostFilter",
+    component: UserDetail,
   },
 ];
 

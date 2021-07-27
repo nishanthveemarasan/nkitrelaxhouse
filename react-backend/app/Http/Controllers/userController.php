@@ -39,9 +39,10 @@ class userController extends Controller
             return $this->apiResponseService->failed($e->getMessage(), 500);
         }
     }
-    public function getUser($id)
+    public function getUser()
     {
         try {
+            $id = 1;
             $getUserLogs = $this->userService->getUser($id);
             $response =  $this->apiResponseService->success(200, $getUserLogs);
             return $response;

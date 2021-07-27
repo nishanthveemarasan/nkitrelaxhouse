@@ -17,10 +17,15 @@ class commentController extends Controller
         $this->commentService = $commentService;
         $this->apiResponseService = $apiResponseService;
     }
-    public function getAllCommets()
+    public function getAllCommets($id)
     {
         try {
-            $getAllComments = $this->commentService->getAllCommets();
+            $getAllComments = "";
+            if ($id === 'all') {
+                $getAllComments = $this->commentService->getAllCommets();
+            } else {
+                $getAllComments = $this->commentService->getUserComments($id);
+            }
             $response =  $this->apiResponseService->success(200, $getAllComments);
             return $response;
         } catch (Throwable $e) {
@@ -31,6 +36,7 @@ class commentController extends Controller
     public function getUserComments($id)
     {
         try {
+
             $getUserComments = $this->commentService->getUserComments($id);
             $response =  $this->apiResponseService->success(200, $getUserComments);
             return $response;
@@ -42,7 +48,9 @@ class commentController extends Controller
     public function create(Request $request)
     {
         try {
+            $userId = 4;
             $data = $request->all();
+            $data['user_id'] = $userId;
             $validation = Validator::make(
                 $data,
                 [

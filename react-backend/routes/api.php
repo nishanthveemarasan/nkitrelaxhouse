@@ -67,7 +67,7 @@ Route::middleware(['cors'])->group(function () {
         Route::get('get-user-logs/{id}', [userController::class, 'getUserLogs']);
         Route::post('edit-user-role', [userController::class, 'editUserRole']);
         Route::post('disable-a-user', [userController::class, 'disableUser']);
-        Route::get('get-a-user/{id}', [userController::class, 'getUser']);
+        Route::get('get-a-user', [userController::class, 'getUser']);
         Route::post('update-a-user', [userController::class, 'updateUser']);
         Route::post('check-username', [userController::class, 'checkUsername']);
         Route::post('create', [userController::class, 'create']);
@@ -79,15 +79,16 @@ Route::middleware(['cors'])->group(function () {
 Route::get('error', [userController::class, 'error'])->name('error');
 
 Route::prefix('posts')->group(function () {
-    Route::get('get-posts', [postController::class, 'getAllPosts']);
+    Route::get('get-posts/{id}', [postController::class, 'getAllPosts']);
     Route::get('get-user-posts/{id}', [postController::class, 'getUserPosts']);
     Route::post('create', [postController::class, 'create']);
     Route::post('edit', [postController::class, 'edit']);
     Route::get('delete/{id}', [postController::class, 'delete']);
+    Route::get('get-post/{id}', [postController::class, 'getSinglePost']);
 });
 
 Route::prefix('comments')->group(function () {
-    Route::get('get-comments', [commentController::class, 'getAllCommets']);
+    Route::get('get-comments/{id}', [commentController::class, 'getAllCommets']);
     Route::get('get-user-comment/{id}', [commentController::class, 'getUserComments']);
     Route::get('get-post-comment/{id}', [commentController::class, 'getPostComments']);
     Route::post('create', [commentController::class, 'create']);

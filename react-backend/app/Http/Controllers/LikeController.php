@@ -20,7 +20,9 @@ class LikeController extends Controller
     public function isPostLiked(Request $request)
     {
         try {
+            $userId = 4;
             $data = $request->all();
+            $data['user_id'] = $userId;
             $getLikeDetails =   $this->likeService->isPostLiked($data);
             $response =  $this->apiResponseService->success(200, $getLikeDetails);
             return $response;
@@ -31,7 +33,9 @@ class LikeController extends Controller
     public function updateLikes(Request $request)
     {
         try {
+            $userId = 4;
             $data = $request->all();
+            $data['userId'] = $userId;
             $getLikeDetails =   $this->likeService->updateLikes($data);
             $response =  $this->apiResponseService->success(200, $getLikeDetails);
             return $response;

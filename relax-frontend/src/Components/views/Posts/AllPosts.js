@@ -6,6 +6,7 @@ import Loader from "src/Components/UI/Loader/Loader";
 import CTable from "src/Components/UI/Table/CTable";
 import Pagination from "src/Components/UI/Table/Pagination";
 import { getPostData, openAddPostModal } from "src/store/post.slice";
+import { postStoreAction } from "src/store/store";
 import AllPostBodyTable from "./AllPostBodyTable";
 import CreateModal from "./Modal/CreateModal";
 import PostEditModal from "./Modal/PostEditModal";
@@ -21,15 +22,28 @@ const AllPosts = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (state.reRunPostComponent) {
-      dispatch(getPostData());
+    if (state.reRunPostComponent.isDataChanged) {
+      const data = {
+        id: "all",
+        param: state.reRunPostComponent.queryParam,
+      };
+      dispatch(getPostData(data));
     }
-  }, [state.reRunPostComponent, dispatch]);
+  }, [
+    state.reRunPostComponent.isDataChanged,
+    dispatch,
+    state.reRunPostComponent.queryParam,
+  ]);
 
   const pageChangeHandler = (url) => {
     if (url) {
-      const getParam = url.split("?")[1];
-      dispatch(getPostData(getParam));
+      const param = url.split("?")[1];
+      dispatch(postStoreAction.updateParam({ param }));
+      const data = {
+        id: "all",
+        param,
+      };
+      dispatch(getPostData(data));
     }
   };
   const openCreateModalHandler = () => {

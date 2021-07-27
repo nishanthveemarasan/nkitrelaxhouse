@@ -13,3 +13,9 @@ export const searchApi = (url, queryString) => {
   const getUrl = `${url}/${queryString}`;
   return API.get(getUrl);
 };
+export const sendGetAdminApi = (url) => {
+  return API.get(url);
+};
+export const sendPostAdminApi = (url, data) => {
+  return API.post(url, data);
+};

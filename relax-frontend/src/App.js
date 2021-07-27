@@ -17,6 +17,8 @@ const Register = React.lazy(() => import("./views/pages/register/Register"));
 const Page404 = React.lazy(() => import("./views/pages/page404/Page404"));
 const Page500 = React.lazy(() => import("./views/pages/page500/Page500"));
 const Home = React.lazy(() => import("./views/Home/Home"));
+const Posts = React.lazy(() => import("./views/Home/Posts/Posts"));
+//const Items = React.lazy(() => import("src/views/Home/Product/Item"));
 
 class App extends Component {
   render() {
@@ -31,8 +33,14 @@ class App extends Component {
           />
           <Route
             exact
-            path="/home"
-            name="Home Page"
+            path="/Posts"
+            name="Posts"
+            render={(props) => <Posts {...props} />}
+          />
+          <Route
+            exact
+            path="/"
+            name="Home"
             render={(props) => <Home {...props} />}
           />
 
@@ -56,8 +64,8 @@ class App extends Component {
           />
           {/* if not authenticated hide this */}
           <Route
-            path="/"
-            name="Home"
+            path="/admin"
+            name="Admin"
             render={(props) => <TheLayout {...props} />}
           />
         </Switch>

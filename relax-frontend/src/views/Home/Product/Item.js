@@ -44,6 +44,7 @@ const Item = () => {
   };
   return (
     <>
+     
       {!state.isPageLoading && <Loader class={classes.spinner} />}
       <Container style={{ marginTop: "10%" }}>
         <div>

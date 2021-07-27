@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Loader from "src/Components/UI/Loader/Loader";
 import CTable from "src/Components/UI/Table/CTable";
 import Pagination from "src/Components/UI/Table/Pagination";
+import { userStoreAction } from "src/store/store";
 import { getUserData } from "src/store/user-slice";
 import UserEditModal from "../Modal/UserEditModal";
 import UserTableBody from "./UserTableBody";
@@ -18,14 +19,25 @@ const AllUsers = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (state.reRunComponent) {
-      dispatch(getUserData());
+    if (state.reRunComponent.isDataChanged) {
+      const data = {
+        param: state.reRunComponent.queryParam,
+      };
+      dispatch(getUserData(data));
     }
-  }, [state.reRunComponent, dispatch]);
+  }, [
+    state.reRunComponent.isDataChanged,
+    state.reRunComponent.queryParam,
+    dispatch,
+  ]);
   const pageChangeHandler = (url) => {
     if (url) {
-      const getParam = url.split("?")[1];
-      dispatch(getUserData(getParam));
+      const param = url.split("?")[1];
+      dispatch(userStoreAction.updateParam({ param }));
+      const data = {
+        param,
+      };
+      dispatch(getUserData(param));
     }
   };
   return (
@@ -37,12 +49,13 @@ const AllUsers = () => {
           header={[
             "#",
             "First Name",
-            "Last Name",
-            "User Name",
             "Email",
             "Job Title",
             "Phone Number",
             "Role",
+            "Posts",
+            "Comments",
+            "likes",
             "Status",
             "Action",
           ]}

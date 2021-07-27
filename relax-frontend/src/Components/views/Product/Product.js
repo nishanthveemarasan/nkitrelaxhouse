@@ -22,14 +22,25 @@ const Product = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (state.reRunData) {
-      dispatch(getProductData());
+    if (state.reRunData.isDataChanged) {
+      const data = {
+        param: state.reRunData.queryParam,
+      };
+      dispatch(getProductData(data));
     }
-  }, [dispatch, state.reRunData]);
+  }, [dispatch, state.reRunData.isDataChanged]);
 
   const pageChangeHandler = (url) => {
-    const getParam = url.split("?")[1];
-    dispatch(getProductData(getParam));
+    const param = url.split("?")[1];
+    dispatch(
+      productStoreAction.updateParam({
+        param,
+      })
+    );
+    const data = {
+      param,
+    };
+    dispatch(getProductData(data));
   };
 
   const openCreateModalHandler = () => {
@@ -48,7 +59,6 @@ const Product = () => {
       </div>
       {!state.isDataChanged && <Loader />}
       {state.isDataChanged && (
-        
         <CTable
           header={[
             "#",

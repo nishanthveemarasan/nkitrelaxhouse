@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Likes;
 use App\Models\Posts;
 use App\Models\Comments;
 use App\Models\UserLogs;
@@ -53,5 +54,9 @@ class User extends Authenticatable
     public function comments()
     {
         return $this->hasMany(Comments::class, 'user_id');
+    }
+    public function likes()
+    {
+        return $this->hasMany(Likes::class, 'user_id');
     }
 }

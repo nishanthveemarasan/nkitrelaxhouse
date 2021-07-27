@@ -27,6 +27,28 @@ class PostRepository
         return $posts;
     }
 
+    public function getSingleUserPosts($id)
+    {
+        $posts = Posts::join('users', 'users.id', '=', 'posts.user_id')
+            ->where('users.id', $id)
+            ->select('users.name', 'posts.*')
+            ->withCount('comments', 'likes')
+            ->with(['comments' => function ($query) {
+                $query->orderBy('created_at', 'desc');
+            }, 'comments.users'])
+            ->paginate(10);;
+        return $posts;
+    }
+    public function getSinglePost($id)
+    {
+        $posts = Posts::join('users', 'users.id', '=', 'posts.user_id')
+            ->where('posts.id', $id)
+            ->select('users.name', 'posts.*')
+            ->withCount('comments', 'likes')
+            ->get()->toArray();
+        return $posts[0];
+    }
+
     public function getUserPosts($id)
     {
         // $posts = User::withCount('posts')->get();
@@ -58,12 +80,3 @@ class PostRepository
         return $count[0]['likes_count'];
     }
 }
-/*
- $posts = Posts::join('users', 'users.id', '=', 'posts.user_id')
-->select('users.name', 'posts.*')
-->withCount('comments', 'likes')
-->with('comments', 'comments.users')
-->paginate(10);;
-return $posts;
-
-*/

@@ -1,15 +1,12 @@
-import React, { Suspense } from "react";
-import { Route, Switch } from "react-router-dom";
-import MainNavigation from "./Navigation/Navigation";
-const Items = React.lazy(() => import("src/views/Home/Product/Item"));
+import React from "react";
+
+const loading = (
+  <div className="pt-3 text-center">
+    <div className="sk-spinner sk-spinner-pulse"></div>
+  </div>
+);
+
 const Home = () => {
-  return (
-    <>
-      <MainNavigation />
-      <Switch>
-        <Route path="/home" component={Items} />
-      </Switch>
-    </>
-  );
+  return <></>;
 };
 export default Home;
