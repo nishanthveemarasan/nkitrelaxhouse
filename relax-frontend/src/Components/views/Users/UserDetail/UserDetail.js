@@ -30,11 +30,11 @@ const UserDetail = () => {
     <>
       <CRow>
         <CCol md={6} sm={12}>
-          <PersonalInfo body={data.data} />
+          <PersonalInfo body={data.data} show={true} />
           <PasswordReset body={data.data} />
         </CCol>
         <CCol md={6} sm={12}>
-          <ContactInfo body={data.data} />
+          <ContactInfo body={data.data} show={true} />
           <Job body={data.data} />
         </CCol>
       </CRow>

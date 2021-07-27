@@ -15,7 +15,13 @@ const TheHeaderDropdown = () => {
     <CDropdown inNav className="c-header-nav-items mx-2" direction="down">
       <CDropdownToggle className="c-header-nav-link" caret={false}>
         <div className="c-avatar">
-          <CImg src={"avatars/6.jpg"} className="c-avatar-img" alt="img" />
+          <CImg
+            src={
+              "http://relaxreact.test/react-backend/storage/app/public/profileImage/download.png"
+            }
+            className="c-avatar-img"
+            alt="img"
+          />
         </div>
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">

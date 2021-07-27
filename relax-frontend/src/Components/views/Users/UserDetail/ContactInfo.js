@@ -1,10 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { CCol, CRow } from "@coreui/react";
 import { Form } from "react-bootstrap";
 import CButton from "src/Components/UI/Button/Button";
 import Card from "src/Components/UI/Card/Card";
 import FormInputLabel from "src/Components/UI/Input/FormInputLabel";
 import useFormValidate from "src/Hooks/input-validation";
+import CAlert from "src/Components/UI/Alert/CAlert";
+import { sendPostAdminApi } from "src/service/appService";
 const ContactInfo = (props) => {
   const data = props.body;
   const {
@@ -27,7 +29,12 @@ const ContactInfo = (props) => {
     setInputValue: setZip,
     inputChangeHandler: zipChangeHandler,
   } = useFormValidate();
-
+  const [loading, setLoading] = useState(false);
+  const [response, setResponse] = useState({
+    msg: "",
+    dataReceived: false,
+    color: "",
+  });
   useEffect(() => {
     if (data) {
       setPhone(data.phone);
@@ -36,9 +43,57 @@ const ContactInfo = (props) => {
       setZip(data.postal_code);
     }
   }, [setPhone, setCity, setCity, setZip, data]);
+
+  const onUpdateContactInfoHandler = (e) => {
+    e.preventDefault();
+    const data = {
+      phone,
+      postal_code: zip,
+      city,
+      country,
+    };
+    console.log(data);
+    if (!phone || !zip || !city || !country) {
+      setResponse((prevState) => {
+        return {
+          ...prevState,
+          dataReceived: true,
+          msg: "Some Fields are missing!!!",
+          color: "danger",
+        };
+      });
+    } else {
+      setLoading(true);
+      setResponse((prevState) => {
+        return {
+          ...prevState,
+          dataReceived: false,
+        };
+      });
+      sendPostAdminApi("users/update-a-user", data)
+        .then((response) => {
+          setResponse((prevState) => {
+            return {
+              ...prevState,
+              dataReceived: true,
+              msg: response.data.data.msg,
+              color: "success",
+            };
+          });
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error.response);
+          setLoading(false);
+        });
+    }
+  };
   return (
     <Card color="primary" header="Contact Information">
-      <Form>
+      {response.dataReceived && (
+        <CAlert color={response.color} text={response.msg} />
+      )}
+      <Form onSubmit={onUpdateContactInfoHandler}>
         <CRow>
           <FormInputLabel
             label="Phone Number"
@@ -55,7 +110,7 @@ const ContactInfo = (props) => {
             label="ZIP Code"
             type="text"
             readOnly={false}
-            md={4}
+            md={3}
             sm={12}
             value={zip}
             change={zipChangeHandler}
@@ -64,7 +119,7 @@ const ContactInfo = (props) => {
             label="City"
             type="text"
             readOnly={false}
-            md={4}
+            md={5}
             sm={12}
             value={city}
             change={cityChangeHandler}
@@ -79,17 +134,19 @@ const ContactInfo = (props) => {
             change={countryChangeHandler}
           />
         </CRow>
-        <CRow>
-          <CCol md={12} sm={12} className="text-right">
-            <CButton
-              color="success"
-              width="30%"
-              type="submit"
-              loading={false}
-              name="update"
-            />
-          </CCol>
-        </CRow>
+        {props.show && (
+          <CRow>
+            <CCol md={12} sm={12} className="text-right">
+              <CButton
+                color="success"
+                width="30%"
+                type="submit"
+                loading={loading}
+                name="update"
+              />
+            </CCol>
+          </CRow>
+        )}
       </Form>
     </Card>
   );

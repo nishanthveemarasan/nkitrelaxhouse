@@ -89,4 +89,12 @@ class UserRepository
         $updateImage->save();
         return $updateImage;
     }
+    public function updatePassword($id, $password)
+    {
+        return true;
+        $update = User::where('id', (int)$id)->update([
+            'password' => Hash::make($password),
+        ]);
+        return $update;
+    }
 }

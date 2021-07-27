@@ -9,8 +9,12 @@ const FormGroup = (props) => {
           placeholder={props.placeholder}
           aria-label={props.label}
           aria-describedby="basic-addon2"
+          value={props.value}
+          onChange={props.change}
         />
-        <InputGroup.Text id="basic-addon2">{props.group}</InputGroup.Text>
+        <InputGroup.Text id="basic-addon2" onClick={props.viewHandler}>
+          {props.group}
+        </InputGroup.Text>
       </InputGroup>
     </Col>
   );

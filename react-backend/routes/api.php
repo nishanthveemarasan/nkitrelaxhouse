@@ -73,6 +73,7 @@ Route::middleware(['cors'])->group(function () {
         Route::post('create', [userController::class, 'create']);
         Route::post('update-prifile-image', [userController::class, 'updateProfileImage']);
         Route::post('logout', [userController::class, 'logout']);
+        Route::post('password-reset', [userController::class, 'reset']);
     });
 });
 
