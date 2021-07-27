@@ -1,7 +1,7 @@
 import { Col, Form } from "react-bootstrap";
 export const FormInputLabel = (props) => {
   return (
-    <Col md={props.size}>
+    <Col md={props.md} sm={props.sm}>
       <Form.Group>
         {props.label && <Form.Label>{props.label}</Form.Label>}
         <Form.Control

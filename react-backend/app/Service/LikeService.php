@@ -17,7 +17,7 @@ class LikeService
 
     public function isPostLiked($data)
     {
-        $isUserLiked = $this->likeRepository->isUserLiked($data['userId'], $data['postId']);
+        $isUserLiked = $this->likeRepository->isUserLiked($data['user_id'], $data['postId']);
         $totalPostLikes = $this->postRepository->postLikes($data['postId']);
         return array(
             'userLiked' => $isUserLiked,
@@ -29,11 +29,18 @@ class LikeService
     {
         if ($data['status']) {
             $deleteUserLikes = $this->likeRepository->deleteUserLikes($data['userId'], $data['postId']);
+            $totalPostLikes = $this->postRepository->postLikes($data['postId']);
+            return array(
+                'status' => 'success',
+                'totalLikes' => $totalPostLikes
+            );
         } else {
             $createUserLikes = $this->likeRepository->createUserLikes($data['userId'], $data['postId']);
+            $totalPostLikes = $this->postRepository->postLikes($data['postId']);
+            return array(
+                'status' => 'success',
+                'totalLikes' => $totalPostLikes
+            );
         }
-        return array(
-            'status' => 'success',
-        );
     }
 }

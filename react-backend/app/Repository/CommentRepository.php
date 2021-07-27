@@ -18,13 +18,17 @@ class CommentRepository
         $posts = Comments::join('users', 'users.id', '=', 'comments.user_id')
             ->join('posts', 'posts.id', '=', 'comments.post_id')
             ->select('users.name', 'posts.title', 'comments.*')
-            ->paginate(5);;
+            ->paginate(10);
         return $posts;
     }
 
     public function getUserComments($id)
     {
-        $posts = Posts::find($id)->comments()->paginate(5);
+        $posts = Comments::join('users', 'users.id', '=', 'comments.user_id')
+            ->where('users.id', $id)
+            ->join('posts', 'posts.id', '=', 'comments.post_id')
+            ->select('users.name', 'posts.title', 'comments.*')
+            ->paginate(10);
         return $posts;
     }
 

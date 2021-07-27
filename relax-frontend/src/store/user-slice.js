@@ -1,11 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 import API from "src/axios/axios";
+import { sendGetAdminApi } from "src/service/appService";
+import { getUrl } from "src/service/customService";
 import { userStoreAction } from "./store";
 
 const initialState = {
   isUserDataLoaded: false,
   userData: [],
-  reRunComponent: true,
+  reRunComponent: {
+    isDataChanged: true,
+    queryParam: "",
+    postId: "all",
+  },
   userModalData: {
     userRoles: ["Admin", "User"],
     userId: 0,
@@ -33,6 +39,19 @@ const userSlice = createSlice({
       state.isUserDataLoaded = true;
       state.userData = action.payload.user;
     },
+    updateUserId(state, action) {
+      state.reRunComponent = {
+        ...state.reRunComponent,
+        postId: action.payload.userId,
+      };
+      console.log(state.reRunComponent);
+    },
+    updateParam(state, action) {
+      state.reRunComponent = {
+        ...state.reRunComponent,
+        queryParam: action.payload.param,
+      };
+    },
     openUserModal(state, action) {
       state.userModalData = {
         ...state.userModalData,
@@ -52,10 +71,16 @@ const userSlice = createSlice({
         isLoading: true,
         isDataUpdated: false,
       };
-      state.reRunComponent = false;
+      state.reRunComponent = {
+        ...state.reRunComponent,
+        isDataChanged: false,
+      };
     },
     dataUpdated(state, action) {
-      state.reRunComponent = true;
+      state.reRunComponent = {
+        ...state.reRunComponent,
+        isDataChanged: true,
+      };
       state.updateUserData = {
         isLoading: false,
         isDataUpdated: true,
@@ -86,13 +111,10 @@ const userSlice = createSlice({
 });
 export default userSlice;
 
-export const getUserData = (param) => {
+export const getUserData = (data) => {
   return (dispatch) => {
-    let url = "users/get-users";
-    if (param) {
-      url = `users/get-users?${param}`;
-    }
-    API.get(url)
+    const url = getUrl("users/get-users", data.param);
+    sendGetAdminApi(url)
       .then((response) => {
         if (response.data.http_status === 200) {
           dispatch(userStoreAction.getData({ user: response.data.data }));

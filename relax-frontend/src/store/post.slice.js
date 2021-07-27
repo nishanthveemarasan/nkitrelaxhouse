@@ -1,11 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 import API from "src/axios/axios";
+import { sendGetAdminApi } from "src/service/appService";
+import { getUrl } from "src/service/customService";
 import { postStoreAction } from "./store";
 
 const initialState = {
   isPostDataLoaded: false,
   postData: [],
-  reRunPostComponent: true,
+  reRunPostComponent: {
+    isDataChanged: true,
+    queryParam: "",
+    id: "all",
+  },
   postModalData: {
     postData: "",
     postId: 0,
@@ -27,6 +33,11 @@ const initialState = {
     isModalOpen: false,
     variant: "primary",
   },
+  singlePostData: {
+    data: [],
+    isDataReceived: false,
+    type: "",
+  },
 };
 
 const postSlice = createSlice({
@@ -39,19 +50,45 @@ const postSlice = createSlice({
         isModalOpen: true,
       };
     },
+    updateParam(state, action) {
+      state.reRunPostComponent = {
+        ...state.reRunPostComponent,
+        queryParam: action.payload.param,
+      };
+    },
+    sendSinglePostRequest(state, action) {
+      state.singlePostData = {
+        ...state.singlePostData,
+        isDataReceived: true,
+        type: action.payload.type,
+      };
+    },
+    updateSinglePostRequest(state, action) {
+      state.singlePostData = {
+        ...state.singlePostData,
+        isDataReceived: false,
+        data: action.payload.data,
+      };
+    },
     sendingAddPostData(state) {
       state.addPostModalData = {
         ...state.addPostModalData,
         isLoading: true,
       };
-      state.reRunPostComponent = false;
+      state.reRunPostComponent = {
+        ...state.reRunPostComponent,
+        isDataChanged: false,
+      };
     },
     AddPostCreatedData(state, action) {
       state.addPostModalData = {
         ...state.addPostModalData,
         isLoading: false,
       };
-      state.reRunPostComponent = true;
+      state.reRunPostComponent = {
+        ...state.reRunPostComponent,
+        isDataChanged: true,
+      };
       state.updatePostModalData = {
         ...state.updatePostModalData,
         isUpdated: true,
@@ -62,6 +99,9 @@ const postSlice = createSlice({
     getData(state, action) {
       state.isPostDataLoaded = true;
       state.postData = action.payload.post;
+    },
+    sendInitialRequest(state) {
+      state.isPostDataLoaded = false;
     },
     openPostEditModal(state, action) {
       state.postModalData = {
@@ -82,7 +122,10 @@ const postSlice = createSlice({
         isLoading: true,
         isUpdated: false,
       };
-      state.reRunPostComponent = false;
+      state.reRunPostComponent = {
+        ...state.reRunPostComponent,
+        isDataChanged: false,
+      };
     },
     postDataUpdated(state, action) {
       state.updatePostModalData = {
@@ -91,7 +134,10 @@ const postSlice = createSlice({
         msg: action.payload.msg,
         variant: action.payload.color,
       };
-      state.reRunPostComponent = true;
+      state.reRunPostComponent = {
+        ...state.reRunPostComponent,
+        isDataChanged: true,
+      };
     },
     closeModal(state) {
       state.postModalData = {
@@ -118,13 +164,11 @@ const postSlice = createSlice({
 
 export default postSlice;
 
-export const getPostData = (param = "") => {
+export const getPostData = (data) => {
   return (dispatch) => {
-    let url = "posts/get-posts";
-    if (param) {
-      url = `posts/get-posts?${param}`;
-    }
-    API.get(url)
+    dispatch(postStoreAction.sendInitialRequest());
+    const url = getUrl(`posts/get-posts/${data.id}`, data.param);
+    sendGetAdminApi(url)
       .then((response) => {
         if (response.data.http_status === 200) {
           dispatch(postStoreAction.getData({ post: response.data.data }));
@@ -221,6 +265,23 @@ export const addPostData = (data) => {
             color: "danger",
           })
         );
+      });
+  };
+};
+
+export const getSinglePostData = (id, type) => {
+  return (dispatch) => {
+    dispatch(postStoreAction.sendSinglePostRequest({ type }));
+    sendGetAdminApi(`posts/get-post/${id}`)
+      .then((response) => {
+        dispatch(
+          postStoreAction.updateSinglePostRequest({
+            data: response.data.data,
+          })
+        );
+      })
+      .catch((error) => {
+        console.log(error.message);
       });
   };
 };

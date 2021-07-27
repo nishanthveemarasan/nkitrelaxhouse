@@ -1,11 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import API from "src/axios/axios";
+import { sendGetAdminApi } from "src/service/appService";
+import { getUrl } from "src/service/customService";
 import { saleStoreAction } from "./store";
 
 const initialState = {
   isDataLoaded: false,
   saleData: [],
-  reRunComponent: true,
+  reRunComponent: {
+    isDataChanged: true,
+    queryParam: "",
+  },
   saleModalData: {
     isLoading: false,
     saleId: 0,
@@ -47,6 +52,12 @@ const saleSlice = createSlice({
     getData(state, action) {
       state.isDataLoaded = true;
       state.saleData = action.payload.sale;
+    },
+    updateParam(state, action) {
+      state.reRunComponent = {
+        ...state.reRunComponent,
+        queryParam: action.payload.param,
+      };
     },
     loadModalInitialData(state, action) {
       state.saleModalData = {
@@ -100,14 +111,20 @@ const saleSlice = createSlice({
       };
     },
     updatingData(state) {
-      state.reRunComponent = false;
+      state.reRunComponent = {
+        ...state.reRunComponent,
+        isDataChanged: false,
+      };
       state.updateSaleData = {
         ...state.updateSaleData,
         isLoading: true,
       };
     },
     dataUpdated(state, action) {
-      state.reRunComponent = true;
+      state.reRunComponent = {
+        ...state.reRunComponent,
+        isDataChanged: true,
+      };
       state.updateSaleData = {
         isLoading: false,
         isUpdated: true,
@@ -184,12 +201,16 @@ const saleSlice = createSlice({
       };
     },
     dataNotChanged(state) {
-      state.reRunComponent = false;
-      console.log(state.reRunComponent);
+      state.reRunComponent = {
+        ...state.reRunComponent,
+        isDataChanged: false,
+      };
     },
     dataChanged(state) {
-      state.reRunComponent = true;
-      console.log(state.reRunComponent);
+      state.reRunComponent = {
+        ...state.reRunComponent,
+        isDataChanged: true,
+      };
     },
     refreshOrderLatestId(state) {
       state.refreshORderId = true;
@@ -198,13 +219,10 @@ const saleSlice = createSlice({
 });
 export default saleSlice;
 
-export const getSaleData = (param = "") => {
+export const getSaleData = (data) => {
   return (dispatch) => {
-    let url = "order/get-order-data";
-    if (param) {
-      url = `order/get-order-data?${param}`;
-    }
-    API.get(url)
+    const url = getUrl("order/get-order-data", data.param);
+    sendGetAdminApi(url)
       .then((response) => {
         console.log(response.data.http_status);
         if (response.data.http_status === 200) {

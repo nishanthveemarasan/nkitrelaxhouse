@@ -36,7 +36,7 @@ class UserRepository
 
     public function getUsers()
     {
-        $users = User::paginate(10);
+        $users = User::withCount(['posts', 'comments', 'likes'])->paginate(10);
         return $users;
     }
 

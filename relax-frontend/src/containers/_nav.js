@@ -5,45 +5,45 @@ const _nav = [
   {
     _tag: "CSidebarNavItem",
     name: "Dashboard",
-    to: "/dashboard",
+    to: "/admin/dashboard",
     icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
   },
   {
     _tag: "CSidebarNavItem",
     name: "Products",
-    to: "/product",
+    to: "/admin/product",
     icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
   },
 
   {
     _tag: "CSidebarNavItem",
     name: "Dashboard",
-    to: "/ipg-provider",
+    to: "/admin/ipg-provider",
     icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
   },
   {
     _tag: "CSidebarNavDropdown",
     name: "Sale",
-    route: "/sale",
+    route: "/admin/sale",
     icon: "cil-puzzle",
     _children: [
       {
         _tag: "CSidebarNavItem",
         name: "Orders",
-        to: "/sale/orders",
+        to: "/admin/sale/orders",
       },
     ],
   },
   {
     _tag: "CSidebarNavDropdown",
     name: "Users",
-    route: "/users",
+    route: "/admin/users",
     icon: "cil-puzzle",
     _children: [
       {
         _tag: "CSidebarNavItem",
         name: "All Users",
-        to: "/users/all",
+        to: "/admin/users/all",
       },
     ],
   },
@@ -56,7 +56,20 @@ const _nav = [
       {
         _tag: "CSidebarNavItem",
         name: "All Posts",
-        to: "/posts/all",
+        to: "/admin/posts/all",
+      },
+    ],
+  },
+  {
+    _tag: "CSidebarNavDropdown",
+    name: "Comments",
+    route: "/comments",
+    icon: "cil-puzzle",
+    _children: [
+      {
+        _tag: "CSidebarNavItem",
+        name: "All Comments",
+        to: "/admin/comment/all",
       },
     ],
   },

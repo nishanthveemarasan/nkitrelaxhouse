@@ -42,6 +42,7 @@ class CommentService
 
     public function create($data)
     {
+        //return array('msg' => "success");
         $createComments =  $this->commentRepository->create($data);
         if ($createComments) {
             return array('msg' => "success");

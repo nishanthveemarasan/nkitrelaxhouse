@@ -7,6 +7,7 @@ const CButton = (props) => {
       onClick={props.click}
       type={props.type}
       style={{ minWidth: props.width }}
+      block={props.block}
     >
       {props.loading && <CButtonSpinner />} {props.name}
     </Button>

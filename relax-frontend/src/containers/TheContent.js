@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { CContainer, CFade } from "@coreui/react";
 
 // routes config
@@ -35,7 +35,7 @@ const TheContent = () => {
               );
             })}
 
-            {/* <Redirect from="/" to="/dashboard" /> */}
+            <Redirect from="/admin" to="/admin/dashboard" />
           </Switch>
         </Suspense>
       </CContainer>

@@ -1,11 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import API from "src/axios/axios";
+import { sendGetAdminApi } from "src/service/appService";
+import { getUrl } from "src/service/customService";
 import { productStoreAction } from "./store";
 
 const initialState = {
   isDataChanged: false,
   productData: [],
-  reRunData: true,
+  reRunData: {
+    isDataChanged: true,
+    queryParam: "",
+  },
   modalActionData: "",
   isLoading: false,
   modalData: {
@@ -37,11 +42,23 @@ const productSlice = createSlice({
       state.isDataChanged = true;
       state.productData = action.payload.data;
     },
+    updateParam(state, action) {
+      state.reRunData = {
+        ...state.reRunData,
+        queryParam: action.payload.param,
+      };
+    },
     dataChanged(state) {
-      state.reRunData = true;
+      state.reRunData = {
+        ...state.reRunData,
+        isDataChanged: true,
+      };
     },
     dataNotChanged(state) {
-      state.reRunData = false;
+      state.reRunData = {
+        ...state.reRunData,
+        isDataChanged: false,
+      };
     },
     modalOpen(state, action) {
       state.modalData = {
@@ -89,7 +106,10 @@ const productSlice = createSlice({
       };
     },
     initiateUpdateData(state) {
-      state.reRunData = false;
+      state.reRunData = {
+        ...state.reRunData,
+        isDataChanged: false,
+      };
       state.updateData = {
         ...state.updateData,
         isLoading: true,
@@ -97,7 +117,10 @@ const productSlice = createSlice({
       };
     },
     DataIsUpdated(state, action) {
-      state.reRunData = true;
+      state.reRunData = {
+        ...state.reRunData,
+        isDataChanged: true,
+      };
       state.updateData = {
         ...state.updateData,
         isLoading: false,
@@ -110,13 +133,10 @@ const productSlice = createSlice({
 });
 export default productSlice;
 
-export const getProductData = (param = "") => {
+export const getProductData = (data) => {
   return (dispatch) => {
-    let url = "get-all-chairs";
-    if (param) {
-      url = `get-all-chairs?${param}`;
-    }
-    API.get(url)
+    const url = getUrl("get-all-chairs", data.param);
+    sendGetAdminApi(url)
       .then((response) => {
         if (response.data.http_status === 200) {
           dispatch(productStoreAction.getData({ data: response.data.data }));

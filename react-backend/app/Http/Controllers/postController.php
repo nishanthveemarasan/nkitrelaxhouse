@@ -19,10 +19,10 @@ class postController extends Controller
         $this->apiResponseService = $apiResponseService;
     }
 
-    public function getAllPosts()
+    public function getAllPosts($id)
     {
         try {
-            $getAllPosts = $this->postService->getAllPosts();
+            $getAllPosts = $this->postService->getAllPosts($id);
             $response =  $this->apiResponseService->success(200, $getAllPosts);
             return $response;
         } catch (Throwable $e) {
@@ -34,6 +34,16 @@ class postController extends Controller
     {
         try {
             $getUserPosts = $this->postService->getUserPosts($id);
+            $response =  $this->apiResponseService->success(200, $getUserPosts);
+            return $response;
+        } catch (Throwable $e) {
+            return $this->apiResponseService->failed($e->getMessage(), 500);
+        }
+    }
+    public function getSinglePost($id)
+    {
+        try {
+            $getUserPosts = $this->postService->getSinglePost($id);
             $response =  $this->apiResponseService->success(200, $getUserPosts);
             return $response;
         } catch (Throwable $e) {
