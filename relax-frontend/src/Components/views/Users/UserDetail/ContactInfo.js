@@ -37,10 +37,10 @@ const ContactInfo = (props) => {
   });
   useEffect(() => {
     if (data) {
-      setPhone(data.phone);
-      setCity(data.city);
-      setCountry(data.country);
-      setZip(data.postal_code);
+      setPhone(data.address.phone);
+      setCity(data.address.city);
+      setCountry(data.address.country);
+      setZip(data.address.postal_code);
     }
   }, [setPhone, setCity, setCity, setZip, data]);
 
@@ -70,7 +70,7 @@ const ContactInfo = (props) => {
           dataReceived: false,
         };
       });
-      sendPostAdminApi("users/update-a-user", data)
+      sendPostAdminApi("users/update-contact-info", data)
         .then((response) => {
           setResponse((prevState) => {
             return {

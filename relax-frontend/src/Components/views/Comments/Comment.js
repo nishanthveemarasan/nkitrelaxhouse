@@ -5,6 +5,8 @@ import CTable from "src/Components/UI/Table/CTable";
 import Pagination from "src/Components/UI/Table/Pagination";
 import { getCommentData } from "src/store/comment-slice";
 import { commentStoreAction } from "src/store/store";
+import CContentModal from "./Model/CContentModal";
+import CStatusModel from "./Model/CStatusModal";
 import CTableBody from "./Table/CTableBody";
 const Comment = () => {
   const mapStateToProps = (state) => {
@@ -37,6 +39,8 @@ const Comment = () => {
   };
   return (
     <>
+      <CStatusModel />
+      <CContentModal />
       {!state.data.isDataLoaded && <Loader />}
       {state.data.isDataLoaded && (
         <>

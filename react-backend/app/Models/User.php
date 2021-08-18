@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Job;
 use App\Models\Likes;
 use App\Models\Posts;
+use App\Models\Address;
 use App\Models\Comments;
 use App\Models\UserLogs;
 use Laravel\Passport\HasApiTokens;
@@ -58,5 +60,13 @@ class User extends Authenticatable
     public function likes()
     {
         return $this->hasMany(Likes::class, 'user_id');
+    }
+    public function address()
+    {
+        return $this->hasOne(Address::class, 'user_id');
+    }
+    public function jobs()
+    {
+        return $this->hasOne(Job::class, 'user_id');
     }
 }

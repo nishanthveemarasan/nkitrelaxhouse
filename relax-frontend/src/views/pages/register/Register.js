@@ -123,8 +123,10 @@ const Register = () => {
   };
   return (
     <>
-     
-      <div className="c-app c-default-layout flex-row align-items-center">
+      <div
+        className="c-app c-default-layout flex-row align-items-center"
+        style={{ marginTop: "5%" }}
+      >
         <CContainer>
           <CRow className="justify-content-center">
             <CCol md="9" lg="7" xl="6">

@@ -1,8 +1,8 @@
 import axios from "axios";
 const API = axios.create({
-  baseURL: "http://nkservice.test/react-backend/public/api/",
+  baseURL: "https://nkitservice.com/relax/api/",
   headers: {
-    "Access-Control-Allow-Origin": "http://localhost:3000",
+    "Access-Control-Allow-Origin": "*",
     "Content-type": "application/json",
   },
 });

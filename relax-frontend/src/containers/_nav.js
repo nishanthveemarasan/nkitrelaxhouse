@@ -16,12 +16,6 @@ const _nav = [
   },
 
   {
-    _tag: "CSidebarNavItem",
-    name: "Dashboard",
-    to: "/admin/ipg-provider",
-    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
-  },
-  {
     _tag: "CSidebarNavDropdown",
     name: "Sale",
     route: "/admin/sale",
@@ -72,6 +66,12 @@ const _nav = [
         to: "/admin/comment/all",
       },
     ],
+  },
+  {
+    _tag: "CSidebarNavItem",
+    name: "Message",
+    to: "/admin/message",
+    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
   },
   {
     _tag: "CSidebarNavDivider",

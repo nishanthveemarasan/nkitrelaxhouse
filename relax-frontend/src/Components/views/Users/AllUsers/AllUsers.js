@@ -5,6 +5,8 @@ import CTable from "src/Components/UI/Table/CTable";
 import Pagination from "src/Components/UI/Table/Pagination";
 import { userStoreAction } from "src/store/store";
 import { getUserData } from "src/store/user-slice";
+import ContactDetailModal from "../Modal/ContactDetailModal";
+import JobDetailModal from "../Modal/JobDetailModal";
 import UserEditModal from "../Modal/UserEditModal";
 import UserTableBody from "./UserTableBody";
 const AllUsers = () => {
@@ -43,6 +45,8 @@ const AllUsers = () => {
   return (
     <>
       <UserEditModal />
+      <JobDetailModal />
+      <ContactDetailModal />
       {!state.isUserDataLoaded && <Loader />}
       {state.isUserDataLoaded && (
         <CTable
@@ -50,13 +54,13 @@ const AllUsers = () => {
             "#",
             "First Name",
             "Email",
-            "Job Title",
-            "Phone Number",
             "Role",
             "Posts",
             "Comments",
             "likes",
             "Status",
+            "Job Details",
+            "Contact Details",
             "Action",
           ]}
         >

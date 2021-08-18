@@ -60,12 +60,12 @@ const PostComment = (props) => {
   return (
     <>
       <>
-        {comment.length === 0 && (
+        {comment && comment.length === 0 && (
           <span className="text-primary font-italic">
             no comment yet for this post
           </span>
         )}
-        {comment.length > 0 && (
+        {comment && comment.length > 0 && (
           <>
             {comment.map((row, index) => {
               return (
@@ -83,29 +83,33 @@ const PostComment = (props) => {
             <Pagination body={cPagination} change={pageChangeHandler} />
           </>
         )}
-        <CRow>
-          <CCol md={8} sm={12}>
-            <FormTextArea
-              labelName="Write your comment here"
-              readOnly={false}
-              row={5}
-              value={writeComment}
-              change={onCommentChangeHandler}
-            ></FormTextArea>
-          </CCol>
-        </CRow>
-        <CRow>
-          <CCol md={4} sm={12}>
-            <CButton
-              type="button"
-              color="success"
-              width="30%"
-              name="Submit"
-              click={onCreateCommentHandler}
-              loading={sendRequest}
-            />
-          </CCol>
-        </CRow>
+        {props.isAuthenticatd && (
+          <>
+            <CRow>
+              <CCol md={8} sm={12}>
+                <FormTextArea
+                  labelName="Write your comment here"
+                  readOnly={false}
+                  row={5}
+                  value={writeComment}
+                  change={onCommentChangeHandler}
+                ></FormTextArea>
+              </CCol>
+            </CRow>
+            <CRow>
+              <CCol md={4} sm={12}>
+                <CButton
+                  type="button"
+                  color="success"
+                  width="30%"
+                  name="Submit"
+                  click={onCreateCommentHandler}
+                  loading={sendRequest}
+                />
+              </CCol>
+            </CRow>
+          </>
+        )}
       </>
     </>
   );

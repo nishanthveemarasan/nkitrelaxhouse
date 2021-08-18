@@ -3,10 +3,17 @@ import { CCol, CRow } from "@coreui/react";
 import Card from "src/Components/UI/Card/Card";
 import PostComment from "../Comment/PostComment";
 import Like from "../Like/Like";
+import { useSelector } from "react-redux";
 const SinglePost = (props) => {
   const [like, setLike] = useState(0);
   const [likeChanged, setLikeChanged] = useState(true);
   const post = props.data;
+  const mapStateToProps = (state) => {
+    return {
+      data: state.loginStore.loggedInData,
+    };
+  };
+  const state = useSelector(mapStateToProps);
   useEffect(() => {
     if (likeChanged) {
       setLike(post.likes_count);
@@ -14,11 +21,9 @@ const SinglePost = (props) => {
   }, [like, likeChanged]);
 
   const getTotalLikes = (likes) => {
-    console.log("likes", likes);
     setLikeChanged(false);
     setLike(likes);
   };
-  console.log("like", like);
   return (
     <>
       <Card
@@ -32,12 +37,19 @@ const SinglePost = (props) => {
           <div className="text-justify mb-3">{post.content}</div>
           <div>Total Likes: {like}</div>
           <div className="mt-3">
-            <Like id={post.id} getLikes={getTotalLikes} />
+            {state.data.isDataReceived && (
+              <Like id={post.id} getLikes={getTotalLikes} />
+            )}
           </div>
           <div className="mt-3">
             <CRow>
               <CCol md={6} sm={12}>
-                <PostComment id={post.id} />
+                {post.id && (
+                  <PostComment
+                    id={post.id}
+                    isAuthenticatd={state.data.isDataReceived}
+                  />
+                )}
               </CCol>
             </CRow>
           </div>

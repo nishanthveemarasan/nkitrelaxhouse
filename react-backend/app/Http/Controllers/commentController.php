@@ -6,6 +6,7 @@ use Throwable;
 use Illuminate\Http\Request;
 use App\Service\CommentService;
 use App\Service\APIResponseService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class commentController extends Controller
@@ -48,7 +49,7 @@ class commentController extends Controller
     public function create(Request $request)
     {
         try {
-            $userId = 4;
+            $userId = Auth::user()->id;
             $data = $request->all();
             $data['user_id'] = $userId;
             $validation = Validator::make(
@@ -79,6 +80,18 @@ class commentController extends Controller
         try {
             $getUserComments = $this->commentService->getPostComments($id);
             $response =  $this->apiResponseService->success(200, $getUserComments);
+            return $response;
+        } catch (Throwable $e) {
+            return $this->apiResponseService->failed($e->getMessage(), 500);
+        }
+    }
+
+    public function update(Request $request)
+    {
+        try {
+            $data = $request->all();
+            $update = $this->commentService->update($data);
+            $response =  $this->apiResponseService->success(200, $update);
             return $response;
         } catch (Throwable $e) {
             return $this->apiResponseService->failed($e->getMessage(), 500);

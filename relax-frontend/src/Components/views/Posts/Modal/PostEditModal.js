@@ -71,7 +71,9 @@ const PostEditModal = () => {
     } else {
       const data = {
         id: state.postModalData.postId,
+        action: state.postModalData.status,
       };
+
       dispatch(deletePostModalData(data));
     }
   };
@@ -84,7 +86,16 @@ const PostEditModal = () => {
       onShow={state.postModalData.isModalOpen}
       heading={state.postModalData.ModalHeading}
       variant={state.postModalData.variant}
-      action={state.postModalData.ModalAction}
+      showButton={state.postModalData.showButton}
+      action={
+        state.postModalData.ModalAction === "Update"
+          ? "Update"
+          : state.postModalData.ModalAction === "success"
+          ? "success"
+          : state.postModalData.status === "active"
+          ? "Enable"
+          : "Disable"
+      }
       onClose={modalCloseHandler}
       size="lg"
       onSubmitHandler={onSubmitHandler}
@@ -99,8 +110,14 @@ const PostEditModal = () => {
       {state.postModalData.ModalAction === "Delete" &&
         !state.updatePostModalData.isUpdated && (
           <CAlert
-            color="danger"
-            text={`please confirm that you are going to Cencel the Order`}
+            color={
+              state.postModalData.status === "active" ? "success" : "danger"
+            }
+            text={
+              state.postModalData.status === "active"
+                ? `please confirm that you are going to ENABLE the post`
+                : `please confirm that you are going to DISABLE the post`
+            }
           />
         )}
       {state.postModalData.ModalAction === "Update" && (

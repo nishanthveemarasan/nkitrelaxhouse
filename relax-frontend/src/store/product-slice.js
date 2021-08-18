@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import API from "src/axios/axios";
-import { sendGetAdminApi } from "src/service/appService";
+import { sendGetAdminApi, sendPostAdminApi } from "src/service/appService";
 import { getUrl } from "src/service/customService";
 import { productStoreAction } from "./store";
 
@@ -19,6 +19,7 @@ const initialState = {
     modalAction: "",
     modalHeading: "",
     variant: "",
+    showButton: true,
   },
   openModal: false,
   initialLoad: {
@@ -155,7 +156,7 @@ export const getModalData = (data) => {
         type: data.action,
       })
     );
-    API.get(`get-product-details/${data.id}`)
+    sendGetAdminApi(`get-product-details/${data.id}`)
       .then((response) => {
         if (response.data.http_status === 200) {
           const output = {
@@ -182,32 +183,12 @@ export const getModalData = (data) => {
         console.log(error);
       });
   };
-
-  // } else if (data.action === "Delete") {
-  //   return (dispatch) => {
-  //     dispatch(
-  //       productStoreAction.getModal({
-  //         id: data.id,
-  //         value: true,
-  //         type: data.action,
-  //       })
-  //     );
-  //     const output = {
-  //       id: data.id,
-  //       action: data.action,
-  //       heading: "Delete the Product",
-  //       variant: "danger",
-  //       tableData: "",
-  //     };
-  //     dispatch(productStoreAction.modalOpen(output));
-  //   };
-  // }
 };
 
 export const updateProductData = (data) => {
   return (dispatch) => {
     dispatch(productStoreAction.initiateUpdateData());
-    API.post("edit-product-details", data).then((response) => {
+    sendPostAdminApi("edit-product-details", data).then((response) => {
       console.log(response.data.data.msg);
       dispatch(
         productStoreAction.DataIsUpdated({

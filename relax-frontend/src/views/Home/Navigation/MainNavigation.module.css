@@ -1,0 +1,10 @@
+.link {
+  color: white;
+  text-decoration: none;
+  margin: 8px 5px 0;
+}
+
+.active {
+  color: yellow;
+  text-decoration: underline;
+}

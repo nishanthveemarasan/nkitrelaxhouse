@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Posts;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Likes extends Model
 {
@@ -11,4 +12,9 @@ class Likes extends Model
     protected $table = 'likes';
     protected $connection = 'mysql';
     protected $guarded = [];
+
+    public function posts()
+    {
+        return $this->belongsTo(Posts::class, 'post_id');
+    }
 }

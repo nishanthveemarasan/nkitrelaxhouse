@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import API from "src/axios/axios";
-import { sendGetAdminApi } from "src/service/appService";
+import { sendGetAdminApi, sendPostAdminApi } from "src/service/appService";
 import { getUrl } from "src/service/customService";
 import { postStoreAction } from "./store";
 
@@ -18,7 +18,9 @@ const initialState = {
     ModalHeading: "",
     ModalAction: "",
     isModalOpen: false,
+    status: "",
     variant: "",
+    showButton: true,
   },
   updatePostModalData: {
     isLoading: false,
@@ -105,15 +107,22 @@ const postSlice = createSlice({
     },
     openPostEditModal(state, action) {
       state.postModalData = {
+        ...state.postModalData,
         postData: action.payload.postData,
         postId: action.payload.id,
         ModalAction: action.payload.action,
         isModalOpen: true,
+        status: action.payload.status,
         ModalHeading:
           action.payload.action === "Update"
             ? "Update the Post"
-            : "Delete the post",
-        variant: action.payload.action === "Update" ? "primary" : "danger",
+            : "Enable/Disable the post",
+        variant:
+          action.payload.action === "Update"
+            ? "primary"
+            : action.payload.status === "active"
+            ? "success"
+            : "danger",
       };
     },
     updatingModalData(state) {
@@ -128,11 +137,16 @@ const postSlice = createSlice({
       };
     },
     postDataUpdated(state, action) {
+      state.postModalData = {
+        ...state.postModalData,
+        showButton: action.payload.showButton,
+      };
       state.updatePostModalData = {
         isLoading: false,
         isUpdated: true,
         msg: action.payload.msg,
         variant: action.payload.color,
+        ModalAction: action.payload.action,
       };
       state.reRunPostComponent = {
         ...state.reRunPostComponent,
@@ -147,6 +161,7 @@ const postSlice = createSlice({
         ModalAction: "",
         isModalOpen: false,
         variant: "",
+        showButton: true,
       };
       state.updatePostModalData = {
         isLoading: false,
@@ -189,12 +204,14 @@ export const openPostModal = (data) => {
 export const updatePostModalData = (data) => {
   return (dispatch) => {
     dispatch(postStoreAction.updatingModalData());
-    API.post("posts/edit", data)
+    sendPostAdminApi("posts/edit", data)
       .then((response) => {
         dispatch(
           postStoreAction.postDataUpdated({
             msg: response.data.data.msg,
             color: "success",
+            action: "Update",
+            showButton: true,
           })
         );
       })
@@ -203,6 +220,8 @@ export const updatePostModalData = (data) => {
           postStoreAction.postDataUpdated({
             msg: error.response.data.msg,
             color: "danger",
+            action: "Update",
+            showButton: true,
           })
         );
       });
@@ -211,12 +230,13 @@ export const updatePostModalData = (data) => {
 export const deletePostModalData = (data) => {
   return (dispatch) => {
     dispatch(postStoreAction.updatingModalData());
-    API.get(`posts/delete/${data.id}`)
+    sendPostAdminApi(`posts/delete`, data)
       .then((response) => {
         dispatch(
           postStoreAction.postDataUpdated({
             msg: response.data.data.msg,
             color: "success",
+            showButton: false,
           })
         );
       })
@@ -225,6 +245,7 @@ export const deletePostModalData = (data) => {
           postStoreAction.postDataUpdated({
             msg: error.response.data.msg,
             color: "danger",
+            showButton: true,
           })
         );
       });
@@ -246,8 +267,7 @@ export const openAddPostModal = () => {
 export const addPostData = (data) => {
   return (dispatch) => {
     dispatch(postStoreAction.sendingAddPostData());
-    console.log(data);
-    API.post(`posts/create`, data)
+    sendPostAdminApi(`posts/create`, data)
       .then((response) => {
         const msg = response.data.data.msg;
         dispatch(

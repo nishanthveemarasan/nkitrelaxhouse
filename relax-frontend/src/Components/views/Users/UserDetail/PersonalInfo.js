@@ -10,8 +10,11 @@ import { getDate } from "src/custom-functions";
 import CAlert from "src/Components/UI/Alert/CAlert";
 import { sendPostAdminApi } from "src/service/appService";
 import classes from "./UserDetail.module.css";
+import { useDispatch } from "react-redux";
+import { loginStoreAction } from "src/store/store";
 const PersonalInfo = (props) => {
   const data = props.body;
+  const dispatch = useDispatch();
   const {
     inputValue: fname,
     setInputValue: setFname,
@@ -121,6 +124,7 @@ const PersonalInfo = (props) => {
   };
   const fileSelectedHandler = (event) => {
     const url = URL.createObjectURL(event.target.files[0]);
+    dispatch(loginStoreAction.updateProfileImage({ url }));
     setSelectedImage((prevState) => {
       return {
         ...prevState,

@@ -9,13 +9,27 @@ export const getProductApi = (param, row) => {
   return API.get(url);
 };
 
-export const searchApi = (url, queryString) => {
-  const getUrl = `${url}/${queryString}`;
-  return API.get(getUrl);
-};
 export const sendGetAdminApi = (url) => {
-  return API.get(url);
+  const token = localStorage.getItem("token");
+  return API.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };
 export const sendPostAdminApi = (url, data) => {
+  const token = localStorage.getItem("token");
+  return API.post(url, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const sendPostApi = (url, data) => {
   return API.post(url, data);
+};
+export const sendGetApi = (url, queryString) => {
+  const getUrl = `${url}/${queryString}`;
+  return API.get(getUrl);
 };

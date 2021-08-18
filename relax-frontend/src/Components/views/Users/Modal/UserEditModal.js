@@ -58,6 +58,12 @@ const UserEditModal = () => {
       onSubmitHandler={onSubmitHandler}
       loading={state.updateUserData.isLoading}
       onClose={modalCloseHandler}
+      showButton={
+        state.updateUserData.isDataUpdated &&
+        state.userModalData.actionType !== "assign"
+          ? false
+          : true
+      }
     >
       {state.updateUserData.isDataUpdated && (
         <CAlert

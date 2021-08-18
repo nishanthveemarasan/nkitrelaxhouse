@@ -25,6 +25,8 @@ const PostFilter = React.lazy(() =>
 const UserDetail = React.lazy(() =>
   import("./Components/views/Users/UserDetail/UserDetail")
 );
+const UserLikes = React.lazy(() => import("./Components/views/Likes/Likes"));
+const Message = React.lazy(() => import("./Components/views/Message/Message"));
 
 const routes = [
   { path: "/admin", exact: true, name: "Home" },
@@ -78,6 +80,16 @@ const routes = [
     path: "/admin/user",
     name: "User",
     component: UserDetail,
+  },
+  {
+    path: "/admin/post-likes",
+    name: "Likes",
+    component: UserLikes,
+  },
+  {
+    path: "/admin/message",
+    name: "Message",
+    component: Message,
   },
 ];
 

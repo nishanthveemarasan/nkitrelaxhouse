@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ButtonGroup, Container } from "react-bootstrap";
 import CButton from "src/Components/UI/Button/Button";
 import { getItemData, searchItems } from "src/store/item-slice";
@@ -11,6 +11,7 @@ import CAlert from "src/Components/UI/Alert/CAlert";
 import CTableHeader from "src/Components/UI/Table/CTableHeader";
 import { itemStoreAction } from "src/store/store";
 import classes from "./Product.module.css";
+import axios from "axios";
 const Item = () => {
   const dispatch = useDispatch();
 
@@ -24,6 +25,7 @@ const Item = () => {
     };
   };
   const state = useSelector(mapStateToProps);
+  const [exportValue, setExport] = useState("");
   useEffect(() => {
     if (state.isDataChanged) {
       dispatch(getItemData("", state.row));
@@ -42,9 +44,46 @@ const Item = () => {
   const searchHandler = (queryString) => {
     dispatch(searchItems(queryString));
   };
+
+  const onDownloadExcelHandler = () => {
+    setExport("excel");
+    axios({
+      url: "https://nkitservice.com/relax/api/export-product-excel",
+      method: "GET",
+      responseType: "blob", // important
+    }).then((response) => {
+      setExport("");
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "Products.xlsx"); //or any other extension
+      document.body.appendChild(link);
+      link.click();
+    });
+  };
+  const onDownloadPdfHandler = () => {
+    setExport("pdf");
+    axios({
+      url: "https://nkitservice.com/relax/api/export-product-pdf",
+      method: "GET",
+      responseType: "blob", // important
+    }).then((response) => {
+      setExport("");
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "Products.pdf"); //or any other extension
+      document.body.appendChild(link);
+      link.click();
+    });
+  };
+  const onDownloadPrintHandler = () => {
+    setExport("print");
+    window.print();
+    setExport("");
+  };
   return (
     <>
-     
       {!state.isPageLoading && <Loader class={classes.spinner} />}
       <Container style={{ marginTop: "10%" }}>
         <div>
@@ -61,9 +100,27 @@ const Item = () => {
           </span>
         </div>
         <ButtonGroup>
-          <CButton color="primary" name="Excel" width="30%" loading={false} />
-          <CButton color="primary" name="PDF" width="30%" loading={false} />
-          <CButton color="primary" name="Print" width="30%" loading={false} />
+          <CButton
+            color="primary"
+            name={exportValue === "excel" ? "Exporting" : "Excel"}
+            width="30%"
+            loading={false}
+            click={onDownloadExcelHandler}
+          />
+          <CButton
+            color="primary"
+            name={exportValue === "pdf" ? "Exporting" : "PDF"}
+            width="30%"
+            loading={false}
+            click={onDownloadPdfHandler}
+          />
+          <CButton
+            color="primary"
+            name={exportValue === "print" ? "Exporting" : "Print"}
+            width="30%"
+            loading={false}
+            click={onDownloadPrintHandler}
+          />
         </ButtonGroup>
       </Container>
       <CTableHeader

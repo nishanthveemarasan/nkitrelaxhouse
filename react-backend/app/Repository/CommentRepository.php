@@ -46,4 +46,12 @@ class CommentRepository
             ->select('users.name', 'comments.*')->paginate(5);
         return $posts;
     }
+
+    public function update($id, $action)
+    {
+        $update = Comments::find($id)->update([
+            'status' => $action
+        ]);
+        return $update;
+    }
 }

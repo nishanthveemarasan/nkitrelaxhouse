@@ -68,9 +68,9 @@ class PostRepository
         return $update;
     }
 
-    public function delete($id)
+    public function delete($id, $type)
     {
-        $delete = Posts::find($id)->update(['type' => 'disabled']);
+        $delete = Posts::find($id)->update(['type' => $type]);
         return $delete;
     }
 

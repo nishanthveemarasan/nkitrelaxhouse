@@ -32,7 +32,7 @@ const Posts = () => {
     <>
       {!state.isPostDataLoaded && <Loader />}
       {state.isPostDataLoaded && (
-        <Container style={{ marginTop: "3%" }}>
+        <Container style={{ marginTop: "10%" }}>
           {state.postData.data.length > 0 &&
             state.postData.data.map((row, i) => {
               return (

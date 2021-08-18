@@ -19,6 +19,7 @@ const AllPostBodyTable = (props) => {
     const data = {
       id: props.body[id].id,
       postData: props.body[id],
+      status: "update",
       action: "Update",
     };
     dispatch(openPostModal(data));
@@ -68,13 +69,7 @@ const AllPostBodyTable = (props) => {
                 name="cil-align-center"
                 action={() => updateHandler(i)}
               />{" "}
-              |{" "}
-              <ActionButton
-                value="Delete"
-                class={classes.delete}
-                name="cil-trash"
-                action={() => deleteleHandler(i)}
-              />
+              | {getAction(row.id, row.type, dispatch)}
             </td>
           </tr>
         );
@@ -94,6 +89,43 @@ const getStatus = (value) => {
       return <CBadge color="success" value={"Active"} size="100%" />;
     case "disabled":
       return <CBadge color="danger" value={"Inactive"} size="100%" />;
+    default:
+      return false;
+  }
+};
+
+const getAction = (id, type, dispatch) => {
+  const deleteleHandler = (id, status) => {
+    const data = {
+      id,
+      status,
+      action: "Delete",
+    };
+    dispatch(openPostModal(data));
+  };
+  switch (type) {
+    case "active":
+      return (
+        <CButton
+          color={"danger"}
+          name={"Disable"}
+          type="button"
+          size="20%"
+          loading={false}
+          click={deleteleHandler.bind(null, id, "disabled")}
+        />
+      );
+    case "disabled":
+      return (
+        <CButton
+          color={"success"}
+          name={"Enable"}
+          type="button"
+          size="20%"
+          loading={false}
+          click={deleteleHandler.bind(null, id, "active")}
+        />
+      );
     default:
       return false;
   }

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import API from "src/axios/axios";
-import { sendGetAdminApi } from "src/service/appService";
+import { sendGetAdminApi, sendPostAdminApi } from "src/service/appService";
 import { getUrl } from "src/service/customService";
 import { saleStoreAction } from "./store";
 
@@ -20,6 +20,7 @@ const initialState = {
     modalHeading: "",
     modalAction: "",
     variant: "",
+    showButton: true,
   },
   updateSaleData: {
     isLoading: false,
@@ -61,6 +62,7 @@ const saleSlice = createSlice({
     },
     loadModalInitialData(state, action) {
       state.saleModalData = {
+        ...state.saleModalData,
         isLoading: true,
         saleId: action.payload.id,
         actionType: action.payload.action,
@@ -68,6 +70,7 @@ const saleSlice = createSlice({
     },
     loadSaleModal(state, action) {
       state.saleModalData = {
+        ...state.saleModalData,
         isLoading: false,
         modalData: action.payload.saleDetails,
         saleId: action.payload.id,
@@ -95,6 +98,7 @@ const saleSlice = createSlice({
         variant: "",
       };
       state.addSaleModalData = {
+        ...state.saleModalData,
         isLoading: false,
         latestOrderId: "000",
         productNames: [],
@@ -264,8 +268,9 @@ export const closeSaleModal = () => {
 
 export const updateSaleData = (data) => {
   return (dispatch) => {
+    console.log(data);
     dispatch(saleStoreAction.updatingData());
-    API.post("order/edit-order-data", data)
+    sendPostAdminApi("order/edit-order-data", data)
       .then((response) => {
         dispatch(
           saleStoreAction.dataUpdated({
@@ -276,6 +281,10 @@ export const updateSaleData = (data) => {
       })
       .catch((error) => {
         console.log(error.response);
+        // saleStoreAction.dataUpdated({
+        //   msg: error.response.data.error,
+        //   color: "danger",
+        // });
       });
   };
 };
@@ -283,7 +292,7 @@ export const updateSaleData = (data) => {
 export const openAddOrderModal = () => {
   return (dispatch) => {
     dispatch(saleStoreAction.loadingInitialAddModal());
-    API.get("order/get-latest-order-id")
+    sendGetAdminApi("order/get-latest-order-id")
       .then((response) => {
         if (response.data.http_status === 200) {
           const id = response.data.data.order_id;
@@ -307,7 +316,7 @@ export const initiateCreateOrder = (data) => {
   return (dispatch) => {
     dispatch(saleStoreAction.initiateCreatingOrder());
     dispatch(saleStoreAction.dataNotChanged());
-    API.post("order/create", data).then((response) => {
+    sendPostAdminApi("order/create", data).then((response) => {
       dispatch(saleStoreAction.dataChanged());
       if (response.data.http_status === 200) {
         dispatch(
@@ -316,15 +325,11 @@ export const initiateCreateOrder = (data) => {
             color: "success",
           })
         );
+        setTimeout(() => {
+          dispatch(closeSaleModal());
+        }, 500);
       }
     });
-
-    // dispatch(
-    //   saleStoreAction.orderCreated({
-    //     msg: result.msg,
-    //     color: "success",
-    //   })
-    // );
   };
 };
 

@@ -52,7 +52,6 @@ const CreateModal = () => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
     const data = {
-      user_id: 1,
       title: postTitle,
       content: postContent,
       status: postType,
@@ -72,6 +71,7 @@ const CreateModal = () => {
       size="md"
       onSubmitHandler={onSubmitHandler}
       loading={state.modalData.isLoading}
+      showButton={true}
     >
       {state.updatedData.isUpdated && (
         <CAlert
