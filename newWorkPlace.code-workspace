@@ -1,10 +1,13 @@
 {
-	"folders": [
-		{
-			"path": "react-backend"
-		},
-		{
-			"path": "relax-frontend"
-		}
-	]
+  "folders": [
+    {
+      "path": "react-backend"
+    },
+    {
+      "path": "relax-frontend"
+    },
+    {
+      "path": "store-front-end"
+    }
+  ]
 }
