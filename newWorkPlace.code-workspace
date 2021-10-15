@@ -7,7 +7,7 @@
       "path": "relax-frontend"
     },
     {
-      "path": "store-front-end"
+      "path": "..\\nkitServiceStore\\store-front-end"
     }
   ]
 }

@@ -49,7 +49,7 @@ const UserTableBody = (props) => {
       data = {
         id: props.body[i].id,
         jobData: {
-          jobId: `EMP-100002`,
+          jobId: `EMP-`,
           title: "",
           joinedDate: getDate(new Date()),
           jobType: "part-time",

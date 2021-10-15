@@ -9,6 +9,7 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\orderController;
 use App\Http\Controllers\postController;
 use App\Http\Controllers\productController;
+use App\Http\Controllers\StoreController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\userController;
 use Illuminate\Http\Request;
@@ -50,6 +51,9 @@ Route::get('get-products-without-pagination', [productController::class, 'allPro
 Route::get('export-product-excel', [exportController::class, 'generateReport']);
 Route::get('export-product-pdf', [exportController::class, 'generatePdfReport']);
 
+Route::prefix('users')->group(function () {
+    Route::post('create', [userController::class, 'create']);
+});
 Route::middleware(['auth:api'])->group(function () {
     Route::get('get-dashboard-data', [DashBoardController::class, 'getDashBoardData']);
     Route::get('get-product-details/{id}', [productController::class, 'getProductData']);
@@ -67,8 +71,9 @@ Route::middleware(['auth:api'])->group(function () {
         Route::get('get-a-user', [userController::class, 'getUser']);
         Route::post('update-a-user', [userController::class, 'updateUser']);
         Route::post('update-contact-info', [userController::class, 'updateContactInfo']);
+        Route::post('update-job-info', [userController::class, 'updateJobInfo']);
         Route::post('check-username', [userController::class, 'checkUsername']);
-        Route::post('create', [userController::class, 'create']);
+        // Route::post('create', [userController::class, 'create']);
         Route::post('update-prifile-image', [userController::class, 'updateProfileImage']);
         Route::post('logout', [userController::class, 'logout']);
         Route::post('password-reset', [userController::class, 'reset']);
@@ -97,6 +102,13 @@ Route::middleware(['auth:api'])->group(function () {
     Route::prefix('comments')->group(function () {
         Route::post('update-comment', [commentController::class, 'update']);
     });
+    Route::prefix('store')->group(function () {
+        Route::get('order-data/{status}/{method}/{delivery}', [StoreController::class, 'orderData']);
+        Route::post('update-order-status', [StoreController::class, 'updateOrderStatus']);
+        Route::get('get-order-id/{id}', [StoreController::class, 'getAllOrderIds']);
+        Route::get('get-order-details/{id}', [StoreController::class, 'getSingleOrder']);
+        Route::get('get-product-details/{id}', [StoreController::class, 'getSingleProduct']);
+    });
 });
 
 Route::get('error', [userController::class, 'error'])->name('error');
@@ -117,4 +129,26 @@ Route::prefix('comments')->group(function () {
 
 Route::prefix('user')->group(function () {
     Route::post('login', [userController::class, 'login']);
+});
+
+///store
+
+Route::prefix('store')->group(function () {
+    Route::post('add-to-cart', [StoreController::class, 'cachedItem']);
+    Route::post('remove-from-cart', [StoreController::class, 'removeProduct']);
+    Route::get('get', [StoreController::class, 'getCachedOrder']);
+    Route::get('delete/{id?}', [StoreController::class, 'delete']);
+    Route::get('search/{name}', [StoreController::class, 'search']);
+    Route::post('add-product', [StoreController::class, 'storeProduct']);
+    Route::post('update-product', [StoreController::class, 'updateProduct']);
+    Route::get('get-products/{row}', [StoreController::class, 'getProduct']);
+    Route::get('get-product/{id}', [StoreController::class, 'getSingleProduct']);
+    Route::get('get-product-by-name/{name?}', [StoreController::class, 'getSingleProductByName']);
+    Route::post('cache-customer', [StoreController::class, 'cacheCustomer']);
+    Route::get('get-cache-customer', [StoreController::class, 'getCacheCustomer']);
+    Route::get('clear-cache', [StoreController::class, 'clearCache']);
+    Route::post('filter_shop_data', [StoreController::class, 'filterShopProductData']);
+    Route::post('make-payment', [StoreController::class, 'makePayment']);
+    // Route::get('get-order-details/{id}', [StoreController::class, 'getOrderDetails']);
+    // Route::post('get-order-id/{id}', [StoreController::class, 'getAllOrderIds']);
 });

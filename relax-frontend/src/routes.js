@@ -1,5 +1,4 @@
 import React from "react";
-
 //components
 const DashBoard = React.lazy(() =>
   import("./Components/views/Dashboard/Dashboard")
@@ -28,6 +27,21 @@ const UserDetail = React.lazy(() =>
 const UserLikes = React.lazy(() => import("./Components/views/Likes/Likes"));
 const Message = React.lazy(() => import("./Components/views/Message/Message"));
 
+const Store = React.lazy(() => import("./Components/views/Store/Store"));
+const StoreProduct = React.lazy(() =>
+  import("./Components/views/Store/Product/StoreItems")
+);
+const EditStoreProduct = React.lazy(() =>
+  import("./Components/views/Store/Product/EditProduct")
+);
+const OnlineStoreOrder = React.lazy(() =>
+  import("./Components/views/Store/Order/StoreOrder")
+);
+
+const EditOrder = React.lazy(() =>
+  import("./Components/views/Store/Order/EditOrder/EditOrder")
+);
+
 const routes = [
   { path: "/admin", exact: true, name: "Home" },
 
@@ -35,6 +49,31 @@ const routes = [
     path: "/admin/dashboard",
     name: "Dashboard",
     component: DashBoard,
+  },
+  {
+    path: "/admin/store/product",
+    name: "Store",
+    component: Store,
+  },
+  {
+    path: "/admin/store/item",
+    name: "StoreItem",
+    component: StoreProduct,
+  },
+  {
+    path: "/admin/store/edit/:id",
+    name: "StoreItem",
+    component: EditStoreProduct,
+  },
+  {
+    path: "/admin/store/order",
+    name: "StoreOrder",
+    component: OnlineStoreOrder,
+  },
+  {
+    path: "/admin/store/order-edit",
+    name: "StoreEditOrder",
+    component: EditOrder,
   },
   {
     path: "/admin/product",

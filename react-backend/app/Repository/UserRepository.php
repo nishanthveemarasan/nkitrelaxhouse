@@ -67,15 +67,40 @@ class UserRepository
 
     public function updateUser($id, $data)
     {
+
         $updateUser = User::where('id', $id)
             ->update($data);
         return $updateUser;
     }
+
     public function updateContactInfo($id, $data)
     {
-        $updateUser = Address::where('user_id', $id)
+        $checkUSer = Address::where('user_id', $id)->exists();
+        if ($checkUSer) {
+            $updateUser = Address::where('user_id', $id)
+                ->update($data);
+            return $updateUser;
+        } else {
+            $data['user_id'] = $id;
+            $create = Address::create($data);
+            return $create;
+        }
+    }
+    public function checkJobUser($id)
+    {
+        $checkUSer = Job::where('user_id', $id)->exists();
+        return $checkUSer;
+    }
+    public function updateJobInfo($id, $data)
+    {
+        $update = Job::where('user_id', $id)
             ->update($data);
-        return $updateUser;
+        return $update;
+    }
+    public function createJobInfo($data)
+    {
+        $update = Job::create($data);
+        return $update;
     }
 
     public function checkUsername($name)

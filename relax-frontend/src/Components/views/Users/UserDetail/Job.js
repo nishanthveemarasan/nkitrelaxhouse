@@ -26,7 +26,7 @@ const Job = (props) => {
   } = useFormValidate();
 
   useEffect(() => {
-    if (data) {
+    if (data.jobs) {
       setJobTitle(data.jobs.job_title);
       if (data.jobs.job_started_date) {
         setJobStartedDate(getDate(data.jobs.job_started_date));

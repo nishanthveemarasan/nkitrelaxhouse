@@ -9,6 +9,7 @@ import providerSlice from "./provider-slice";
 import registerSlice from "./register-slice";
 import responsiveSlice from "./responsive-slice";
 import saleSlice from "./sale-slice";
+import shopSlice from "./shop-slice";
 import userSlice from "./user-slice";
 
 const store = configureStore({
@@ -24,6 +25,7 @@ const store = configureStore({
     itemStore: itemSlice.reducer,
     commentStore: commentSlice.reducer,
     loginStore: loginSlice.reducer,
+    shopStore: shopSlice.reducer,
   },
 });
 
@@ -38,4 +40,5 @@ export const registerStoreAction = registerSlice.actions;
 export const itemStoreAction = itemSlice.actions;
 export const commentStoreAction = commentSlice.actions;
 export const loginStoreAction = loginSlice.actions;
+export const shopStoreAction = shopSlice.actions;
 export default store;

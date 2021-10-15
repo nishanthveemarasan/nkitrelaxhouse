@@ -3,6 +3,37 @@ import CIcon from "@coreui/icons-react";
 
 const _nav = [
   {
+    _tag: "CSidebarNavTitle",
+    _children: ["Online Store(Admin)"],
+  },
+  {
+    _tag: "CSidebarNavDropdown",
+    name: "Store",
+    route: "/admin/store",
+    icon: "cil-puzzle",
+    _children: [
+      {
+        _tag: "CSidebarNavItem",
+        name: "Add Product",
+        to: "/admin/store/product",
+      },
+      {
+        _tag: "CSidebarNavItem",
+        name: "Products",
+        to: "/admin/store/item",
+      },
+      {
+        _tag: "CSidebarNavItem",
+        name: "Orders",
+        to: "/admin/store/order",
+      },
+    ],
+  },
+  {
+    _tag: "CSidebarNavTitle",
+    _children: ["Stock Management"],
+  },
+  {
     _tag: "CSidebarNavItem",
     name: "Dashboard",
     to: "/admin/dashboard",

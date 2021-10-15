@@ -12,6 +12,7 @@ import { sendPostAdminApi } from "src/service/appService";
 import classes from "./UserDetail.module.css";
 import { useDispatch } from "react-redux";
 import { loginStoreAction } from "src/store/store";
+import img from "src/assets/img/profile.jpg";
 const PersonalInfo = (props) => {
   const data = props.body;
   const dispatch = useDispatch();
@@ -124,23 +125,28 @@ const PersonalInfo = (props) => {
   };
   const fileSelectedHandler = (event) => {
     const url = URL.createObjectURL(event.target.files[0]);
-    dispatch(loginStoreAction.updateProfileImage({ url }));
-    setSelectedImage((prevState) => {
-      return {
-        ...prevState,
-        profileImage: event.target.files[0],
-        src: url,
-      };
-    });
-    var formData = new FormData();
-    formData.append("file", event.target.files[0]);
-    sendPostAdminApi("users/update-prifile-image", formData)
-      .then((response) => {
-        console.log(response.data.data);
-      })
-      .catch((error) => {
-        console.log(error.response);
+    if (event.target.files[0].name.match(/\.(jpg|jpeg|png|gif)$/)) {
+      dispatch(loginStoreAction.updateProfileImage({ url }));
+      setSelectedImage((prevState) => {
+        return {
+          ...prevState,
+          profileImage: event.target.files[0],
+          src: url,
+        };
       });
+      var formData = new FormData();
+      formData.append("file", event.target.files[0]);
+      console.log(formData);
+      sendPostAdminApi("users/update-prifile-image", formData)
+        .then((response) => {
+          console.log(response.data.data);
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+    } else {
+      alert("Invalid Image Type(jpg|jpeg|png|gif)");
+    }
   };
   return (
     <Card color="primary" header="Personal Information">
@@ -220,7 +226,10 @@ const PersonalInfo = (props) => {
             change={fileSelectedHandler}
           />
           <CCol xs={4} sm={3} md={4} lg={4} xl={4}>
-            <img src={selectedImage.src} className={classes["user-image"]} />
+            <img
+              src={selectedImage.src ? selectedImage.src : img}
+              className={classes["user-image"]}
+            />
           </CCol>
         </CRow>
         {props.show && (

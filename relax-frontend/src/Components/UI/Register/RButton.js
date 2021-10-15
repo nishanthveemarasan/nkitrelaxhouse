@@ -6,6 +6,7 @@ const RButton = (props) => {
       color={props.color}
       block={props.block}
       size="md"
+      disabled={props.disabled}
     >
       {props.loading ? (
         <CSpinner animation="border" variant="light" size="sm" />

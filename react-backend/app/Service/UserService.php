@@ -92,6 +92,22 @@ class UserService
             return array('msg' => "Contact info has been updated Successfully!!!");
         }
     }
+    public function updateJobInfo($data)
+    {
+        $userId = $data['user_id'];
+        unset($data['user_id']);
+        $updateUser =  $this->userRepository->updateJobInfo($userId, $data);
+        if ($updateUser) {
+            return array('msg' => "Job info has been updated Successfully!!!");
+        }
+    }
+    public function createJobInfo($data)
+    {
+        $updateUser =  $this->userRepository->createJobInfo($data);
+        if ($updateUser) {
+            return array('msg' => "Job info has been updated Successfully!!!");
+        }
+    }
     public function checkUsername($data)
     {
         $username = $data['userName'];
@@ -106,7 +122,7 @@ class UserService
     {
         $create =  $this->userRepository->create($data);
         if ($create) {
-            $this->mailService->sendRegisterConfirmEmail($data);
+            // $this->mailService->sendRegisterConfirmEmail($data);
             return array('msg' => "Your Account has been created Successfully!!. Conformation Email has been sent to your mail!!");
         }
     }

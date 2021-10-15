@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import {
   CCard,
   CCardBody,
+  CCardFooter,
   CCardGroup,
   CCol,
   CContainer,
@@ -80,19 +81,21 @@ const Login = (props) => {
       >
         <CContainer>
           <CRow className="justify-content-center mb-3">
-            <img
+            {/* <img
               src={img}
               style={{
                 backgroundColor: "rgba(0,0,0,0.2)",
                 borderRadius: "3px",
-                height: "7vh",
+                height: "15vh",
+                width: "20%",
               }}
-            />
+            /> */}
+            <h3>MY SHOP ADMIN PANEL</h3>
           </CRow>
           <CRow className="justify-content-center">
-            <CCol md="8">
+            <CCol md={8} sm={8} lg={5}>
               <CCardGroup>
-                <CCard className="p-4">
+                <CCard className="p-4" size="md">
                   <CCardBody>
                     <CForm onSubmit={onLoginHandler}>
                       <h1>Login</h1>
@@ -150,8 +153,16 @@ const Login = (props) => {
                       </CRow>
                     </CForm>
                   </CCardBody>
+                  <CCardFooter className="p-4">
+                    <CRow>
+                      <div>
+                        If you dont have account, please{" "}
+                        <Link to="/register"> Register With Us</Link>
+                      </div>
+                    </CRow>
+                  </CCardFooter>
                 </CCard>
-                <CCard
+                {/* <CCard
                   className="text-white bg-primary py-5 d-md-down-none"
                   style={{ width: "44%" }}
                 >
@@ -174,7 +185,7 @@ const Login = (props) => {
                       </Link>
                     </div>
                   </CCardBody>
-                </CCard>
+                </CCard> */}
               </CCardGroup>
             </CCol>
           </CRow>

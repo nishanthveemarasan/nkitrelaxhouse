@@ -53,14 +53,15 @@ const JobDetailModal = () => {
   };
   const onSubmitHandler = (e) => {
     e.preventDefault();
+    const empId = jobId.split("-")[1];
     const data = {
-      id: state.data.id,
-      jobData: {
-        job_title: title,
-        job_started_date: date,
-        job_type: type,
-      },
+      user_id: state.data.id,
+      emp_number: empId,
+      job_title: title,
+      job_started_date: date,
+      job_type: type,
     };
+
     dispatch(updateJobModalData(data));
   };
   return (
@@ -73,13 +74,14 @@ const JobDetailModal = () => {
       onClose={onModalCloseHandler}
       onSubmitHandler={onSubmitHandler}
       width="20%"
+      showButton={true}
     >
       {state.data.isDataUpdated && (
         <CAlert color={state.data.color} text={state.data.msg} />
       )}
       <FormInputLabel
         type="text"
-        readOnly={true}
+        readOnly={false}
         label="Employee ID"
         value={jobId}
         change={jobIdChangeHandler}

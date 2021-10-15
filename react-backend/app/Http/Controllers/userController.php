@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use Throwable;
 use App\Models\User;
+use App\Repository\UserRepository;
 use App\Service\UserService;
 use Illuminate\Http\Request;
 use App\Service\APIResponseService;
@@ -14,12 +15,14 @@ use Illuminate\Support\Facades\Validator;
 class userController extends Controller
 {
     public $userService;
+    public $userRepository;
     public $apiResponseService;
 
-    function __construct(UserService $userService, APIResponseService $apiResponseService)
+    function __construct(UserService $userService, APIResponseService $apiResponseService, UserRepository $userRepository)
     {
         $this->userService = $userService;
         $this->apiResponseService = $apiResponseService;
+        $this->userRepository = $userRepository;
     }
     public function getLogs()
     {
@@ -118,12 +121,43 @@ class userController extends Controller
     public function updateContactInfo(Request $request)
     {
         try {
-            $userId = Auth::user()->id;
+            // $userId = Auth::user()->id;
             $data = $request->all();
-            $data['user_id'] = $userId;
+            // $data['user_id'] = $userId;
             $editUserRole = $this->userService->updateContactInfo($data);
             $response =  $this->apiResponseService->success(200, $editUserRole);
             return $response;
+        } catch (Throwable $e) {
+            return $this->apiResponseService->failed($e->getMessage(), 500);
+        }
+    }
+    public function updateJobInfo(Request $request)
+    {
+        try {
+            $data = $request->all();
+            $checkUser = $this->userRepository->checkJobUser($data['user_id']);
+            if ($checkUser) {
+                $jobData = $this->userService->updateJobInfo($data);
+                $response =  $this->apiResponseService->success(200, $jobData);
+                return $response;
+            } else {
+                $validation = Validator::make(
+                    $data,
+                    [
+                        'emp_number' => 'bail|required|unique:job|digits:6'
+                    ],
+                    $messages = [],
+                    [
+                        'emp_number' => "Employee Number"
+                    ]
+                );
+                if ($validation->fails()) {
+                    return $this->apiResponseService->failed($validation->errors(), 500);
+                }
+                $jobData = $this->userService->createJobInfo($data);
+                $response =  $this->apiResponseService->success(200, $jobData);
+                return $response;
+            }
         } catch (Throwable $e) {
             return $this->apiResponseService->failed($e->getMessage(), 500);
         }
@@ -234,7 +268,7 @@ class userController extends Controller
     public function reset(Request $request)
     {
         try {
-            $id = Auth::user()->id;
+            // $id = Auth::user()->id;
             $data = $request->all();
             $validation = Validator::make(
                 $data,
@@ -245,7 +279,7 @@ class userController extends Controller
             if ($validation->fails()) {
                 return $this->apiResponseService->failed($validation->errors(), 500);
             }
-            $update = $this->userService->updatePassword($id, $data['password']);
+            $update = $this->userService->updatePassword($data['user_id'], $data['password']);
             $response =  $this->apiResponseService->success(200, $update);
             return $response;
         } catch (Exception $e) {

@@ -1,7 +1,12 @@
 .link {
   color: white;
   text-decoration: none;
-  margin: 8px 5px 0;
+  margin: 8px 13px 0;
+  font-size: 150%;
+}
+.link:hover {
+  color: aqua;
+  text-decoration: none;
 }
 
 .active {

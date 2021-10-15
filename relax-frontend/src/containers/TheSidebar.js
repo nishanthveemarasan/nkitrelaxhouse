@@ -36,14 +36,20 @@ const TheSidebar = () => {
         dispatch(responsiveStoreAction.changeState({ sidebarShow: val }))
       }
     >
-      <CSidebarBrand className="d-md-down-none" to="/">
+      <CSidebarBrand className="d-md-down-none" to="/admin/dashboard">
         {/* <CIcon
           className="c-sidebar-brand-full"
           name="logo-negative"
           height={35}
         />
         cartDNA */}
-        <img src={img} /> <small>Admin</small>
+        {/* <img src={img} /> */}
+        <span
+          style={{ marginLeft: "0px", marginRight: "5px", fontSize: "120%" }}
+        >
+          MY FURNITURE SHOP{" "}
+        </span>{" "}
+        <small> Admin</small>
       </CSidebarBrand>
       <CSidebarNav>
         <CCreateElement

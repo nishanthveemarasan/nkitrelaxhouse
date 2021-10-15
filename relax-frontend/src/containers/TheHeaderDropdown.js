@@ -16,6 +16,7 @@ import {
   loginStoreAction,
   userStoreAction,
 } from "src/store/store";
+import img from "src/assets/img/profile.jpg";
 const TheHeaderDropdown = () => {
   const history = useHistory();
   const mapStateToProps = (state) => {
@@ -57,7 +58,11 @@ const TheHeaderDropdown = () => {
     <CDropdown inNav className="c-header-nav-items mx-2" direction="down">
       <CDropdownToggle className="c-header-nav-link" caret={false}>
         <div className="c-avatar">
-          <CImg src={state.data.image} className="c-avatar-img" alt="img" />
+          <CImg
+            src={state.data.image ? state.data.image : img}
+            className="c-avatar-img"
+            alt="img"
+          />
         </div>
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">

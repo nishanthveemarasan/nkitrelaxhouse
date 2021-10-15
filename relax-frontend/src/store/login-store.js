@@ -106,7 +106,6 @@ const loginSlice = createSlice({
         likes: action.payload.likes,
         userId: action.payload.userId,
       };
-      console.log(state.loggedInData);
     },
   },
 });

@@ -102,7 +102,7 @@ const userSlice = createSlice({
     updateJobData(state, action) {
       state.reRunComponent = {
         ...state.reRunComponent,
-        isDataChanged: true,
+        isDataChanged: action.payload.isDataChanged,
       };
 
       state.jobModal = {
@@ -287,14 +287,33 @@ export const getPostLikeData = (data) => {
 };
 
 export const updateJobModalData = (data) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(userStoreAction.sendJobData());
-
-    dispatch(
-      userStoreAction.updateJobData({
-        msg: "job Details has been updated Successfully!!",
-        color: "success",
-      })
-    );
+    try {
+      const response = await sendPostAdminApi("users/update-job-info", data);
+      console.log(response.data);
+      dispatch(
+        userStoreAction.updateJobData({
+          msg: response.data.data.msg,
+          color: "success",
+          isDataChanged: true,
+        })
+      );
+      setTimeout(() => {
+        dispatch(userStoreAction.closeJobModal());
+      }, 600);
+    } catch (error) {
+      let valError = error.response.data.error;
+      if (error.response.data.error.emp_number[0]) {
+        valError = error.response.data.error.emp_number[0];
+      }
+      dispatch(
+        userStoreAction.updateJobData({
+          msg: valError,
+          color: "danger",
+          isDataChanged: false,
+        })
+      );
+    }
   };
 };

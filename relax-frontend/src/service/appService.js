@@ -31,5 +31,10 @@ export const sendPostApi = (url, data) => {
 };
 export const sendGetApi = (url, queryString) => {
   const getUrl = `${url}/${queryString}`;
+  console.log(getUrl);
   return API.get(getUrl);
+};
+
+export const getApi = (url) => {
+  return API.get(url);
 };
