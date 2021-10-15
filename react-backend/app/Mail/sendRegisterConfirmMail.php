@@ -28,8 +28,8 @@ class sendRegisterConfirmMail extends Mailable
      */
     public function build()
     {
-        return $this->view('user.email.register-confirm-email', ['data' => $this->data])
+        return $this->view('user.email.signup-confirm', ['data' => $this->data])
             ->to($this->data['email'])
-            ->subject('WELCOME EMAIL FROM RELAXHOUSE');
+            ->subject('WELCOME EMAIL FROM MYSHOP ADMIN');
     }
 }

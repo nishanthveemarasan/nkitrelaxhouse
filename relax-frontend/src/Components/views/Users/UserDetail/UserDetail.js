@@ -11,21 +11,33 @@ const UserDetail = () => {
     data: "",
     changed: true,
   });
-  useEffect(() => {
+  useEffect(async () => {
     if (data.changed) {
-      sendGetAdminApi("users/get-a-user")
-        .then((response) => {
-          setData((prevState) => {
-            return {
-              ...prevState,
-              data: response.data.data,
-            };
-          });
-        })
-        .catch();
+      try {
+        const response = await sendGetAdminApi("users/get-a-user");
+        setData((prevState) => {
+          return {
+            ...prevState,
+            data: response.data.data,
+          };
+        });
+      } catch (error) {
+        console.log(error.response);
+      }
+      // sendGetAdminApi("users/get-a-user")
+      //   .then((response) => {
+      //     setData((prevState) => {
+      //       return {
+      //         ...prevState,
+      //         data: response.data.data,
+      //       };
+      //     });
+      //   })
+      //   .catch();
     }
   }, [data.changed]);
   // console.log(data.data.job_title);
+  // console.log(data);
   return (
     <>
       <CRow>

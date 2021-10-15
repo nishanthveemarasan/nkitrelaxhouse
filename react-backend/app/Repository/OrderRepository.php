@@ -71,7 +71,6 @@ class OrderRepository
         try {
             DB::beginTransaction();
             $currentCount = $this->getCurrentSellStock($id);
-            return array('msg' => 'Order has been deleted successfully');
             $deleteData = Orders::find($id)->delete();
             if ($deleteData) {
                 $model = Products::where('itemname', $name)->first();

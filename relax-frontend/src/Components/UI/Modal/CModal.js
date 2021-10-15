@@ -15,20 +15,27 @@ const CModal = (props) => {
         </Modal.Header>
         <Modal.Body>{props.children}</Modal.Body>
         <Modal.Footer>
-          <Button variant={props.variant} type="submit">
-            {props.loading && (
-              <Spinner
-                as="span"
-                animation="grow"
-                size="sm"
-                role="status"
-                aria-hidden="true"
-              />
-            )}
-            {!props.loading && props.action}
-          </Button>
+          {props.showButton && (
+            <Button
+              variant={props.variant}
+              type="submit"
+              style={{ width: props.width }}
+            >
+              {props.loading && (
+                <Spinner
+                  as="span"
+                  animation="grow"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+              )}
+              {!props.loading && props.action}
+            </Button>
+          )}
+
           <Button variant="secondary" onClick={props.onClose}>
-            Cancel
+            Close
           </Button>
         </Modal.Footer>
       </Form>

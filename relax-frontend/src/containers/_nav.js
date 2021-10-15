@@ -3,6 +3,37 @@ import CIcon from "@coreui/icons-react";
 
 const _nav = [
   {
+    _tag: "CSidebarNavTitle",
+    _children: ["Online Store(Admin)"],
+  },
+  {
+    _tag: "CSidebarNavDropdown",
+    name: "Store",
+    route: "/admin/store",
+    icon: "cil-puzzle",
+    _children: [
+      {
+        _tag: "CSidebarNavItem",
+        name: "Add Product",
+        to: "/admin/store/product",
+      },
+      {
+        _tag: "CSidebarNavItem",
+        name: "Products",
+        to: "/admin/store/item",
+      },
+      {
+        _tag: "CSidebarNavItem",
+        name: "Orders",
+        to: "/admin/store/order",
+      },
+    ],
+  },
+  {
+    _tag: "CSidebarNavTitle",
+    _children: ["Stock Management"],
+  },
+  {
     _tag: "CSidebarNavItem",
     name: "Dashboard",
     to: "/admin/dashboard",
@@ -15,12 +46,6 @@ const _nav = [
     icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
   },
 
-  {
-    _tag: "CSidebarNavItem",
-    name: "Dashboard",
-    to: "/admin/ipg-provider",
-    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
-  },
   {
     _tag: "CSidebarNavDropdown",
     name: "Sale",
@@ -72,6 +97,12 @@ const _nav = [
         to: "/admin/comment/all",
       },
     ],
+  },
+  {
+    _tag: "CSidebarNavItem",
+    name: "Message",
+    to: "/admin/message",
+    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
   },
   {
     _tag: "CSidebarNavDivider",

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import API from "src/axios/axios";
+import { sendGetAdminApi } from "src/service/appService";
 import { dashboardStoreAction } from "./store";
 
 const initialState = {
@@ -31,12 +32,12 @@ export default dashboardSlice;
 
 export const getWidgetData = () => {
   return (dispatch) => {
-    API.get("get-dashboard-data")
+    sendGetAdminApi("get-dashboard-data")
       .then((response) => {
         if (response.data.http_status === 200) {
           dispatch(dashboardStoreAction.getWidgetData(response.data.data));
         }
-        console.log(response.data.data);
+        // console.log(response.data.data);
       })
       .catch((error) => console.log(error));
   };

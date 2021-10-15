@@ -1,6 +1,7 @@
 {
   "name": "@coreui/coreui-free-react-admin-template",
   "version": "3.2.1",
+  "homepage": "https://nkitservice.com/react/",
   "description": "CoreUI React Open Source Bootstrap 4 Admin Template",
   "author": {
     "name": "CoreUI",
@@ -14,7 +15,6 @@
       "url": "https://github.com/orgs/coreui/people"
     }
   ],
-  "homepage": ".",
   "copyright": "Copyright 2017-2020 creativeLabs Łukasz Holeczek",
   "license": "MIT",
   "private": true,

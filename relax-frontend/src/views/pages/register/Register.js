@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  CButton,
   CCard,
   CCardBody,
   CCardFooter,
@@ -12,10 +11,17 @@ import {
 } from "@coreui/react";
 import RInput from "src/Components/UI/Register/RInput";
 import RButton from "src/Components/UI/Register/RButton";
-import useFormValidate from "src/Hooks/input-validation";
-import Error from "src/Components/UI/Error/Error";
 import { registerData } from "src/store/register-slice";
 import RAlert from "src/Components/UI/Alert/RAlert";
+import { Link } from "react-router-dom";
+import { required } from "src/Components/views/Store/UI/validator/Validator";
+import {
+  email,
+  length,
+  validPassword,
+} from "src/Components/UI/Validation/Validator";
+import Error from "src/Components/UI/Error/Error";
+import { generateRandomPassword } from "src/service/customService";
 
 const Register = () => {
   const mapStateToProps = (state) => {
@@ -26,108 +32,125 @@ const Register = () => {
   };
   const state = useSelector(mapStateToProps);
   const dispatch = useDispatch();
-  const {
-    inputValue: fname,
-    inputIsTouched: fnameIsTouched,
-    inputChangeHandler: fnameChangeHandler,
-    inputBlurHandler: fnameBlurHandler,
-    reset: fnameResetHandler,
-  } = useFormValidate();
-  const {
-    inputValue: lname,
-    inputIsTouched: lnameIsTouched,
-    inputChangeHandler: lnameChangeHandler,
-    inputBlurHandler: lnameBlurHandler,
-    reset: lnameResetHandler,
-  } = useFormValidate();
-  const {
-    inputValue: username,
-    inputIsTouched: usernameIsTouched,
-    inputChangeHandler: usernameChangeHandler,
-    inputBlurHandler: usernameBlurHandler,
-    reset: usernameResetHandler,
-  } = useFormValidate();
-  const {
-    inputValue: email,
-    inputIsTouched: emailIsTouched,
-    inputChangeHandler: emailChangeHandler,
-    inputBlurHandler: emailBlurHandler,
-    reset: emailResetHandler,
-  } = useFormValidate();
-  const {
-    inputValue: password,
-    inputIsTouched: passwordIsTouched,
-    inputChangeHandler: passwordChangeHandler,
-    inputBlurHandler: passwordBlurHandler,
-    reset: passwordResetHandler,
-  } = useFormValidate();
-  const {
-    inputValue: cPassword,
-    inputIsTouched: cPasswordIsTouched,
-    inputChangeHandler: cPasswordChangeHandler,
-    inputBlurHandler: cPasswordBlurHandler,
-    reset: cPasswordResetHandler,
-  } = useFormValidate();
 
-  let isFormValid = false;
-  const fnameIsValid = fname.trim() !== "";
-  const fnameIsInvalid = !fnameIsValid && fnameIsTouched;
-
-  const lnameIsValid = lname.trim() !== "";
-  const lnameIsInvalid = !lnameIsValid && lnameIsTouched;
-
-  const usernameIsValid = username.trim() !== "";
-  const usernameIsInvalid = !usernameIsValid && usernameIsTouched;
-
-  const emailIsValid = email.trim().includes("@");
-  const emailIsInvalid = !emailIsValid && emailIsTouched;
-
-  const passwordIsValid = password.trim() !== "";
-  const passwordIsInvalid = !passwordIsValid && passwordIsTouched;
-
-  const cPasswordIsValid = cPassword.trim() === password.trim();
-  const cPasswordIsInvalid = !cPasswordIsValid && cPasswordIsTouched;
-
-  if (
-    fnameIsValid &&
-    lnameIsValid &&
-    usernameIsValid &&
-    emailIsValid &&
-    passwordIsValid &&
-    cPasswordIsValid
-  ) {
-    isFormValid = true;
-  }
-
+  const [formData, setFormData] = useState({
+    fname: {
+      value: "",
+      valid: false,
+      touched: false,
+      validator: [required],
+      error: "First Name is Required!",
+    },
+    lname: {
+      value: "",
+      valid: false,
+      touched: false,
+      validator: [required],
+      error: "Last Name is Required!",
+    },
+    email: {
+      value: "",
+      valid: false,
+      touched: false,
+      validator: [email],
+      error: "Enter Valid Email Address!",
+    },
+    username: {
+      value: "",
+      valid: false,
+      touched: false,
+      validator: [required, length({ min: 6 })],
+      error: "Username must be atleast 6 characters!",
+    },
+    password: {
+      value: "",
+      valid: false,
+      touched: false,
+      validator: [required, length({ min: 8 })],
+      error: "Password must be atleast 8 characters!",
+    },
+    cPassword: {
+      value: "",
+      valid: false,
+      touched: false,
+      error: "Password does not match!",
+    },
+  });
+  const onInputChangeHandler = (e, type) => {
+    const value = e.target.value;
+    let isValid = true;
+    if (type === "cPassword") {
+      isValid = isValid && formData.password.value.trim() === value.trim();
+    } else {
+      for (const validator of formData[type].validator) {
+        isValid = isValid && validator(value);
+      }
+    }
+    setFormData((prevState) => {
+      return {
+        ...prevState,
+        [type]: {
+          ...prevState[type],
+          value,
+          valid: isValid,
+        },
+      };
+    });
+  };
+  const onInputBlurHandler = (e, type) => {
+    setFormData((prevState) => {
+      return {
+        ...prevState,
+        [type]: {
+          ...prevState[type],
+          touched: true,
+        },
+      };
+    });
+  };
+  const onPasswordGenerateHandler = () => {
+    const password = generateRandomPassword(15);
+    setFormData((prevState) => {
+      return {
+        ...prevState,
+        password: {
+          ...prevState.password,
+          value: password,
+          valid: true,
+          touched: true,
+        },
+      };
+    });
+  };
   const onRegisterHandler = (e) => {
     e.preventDefault();
     if (isFormValid) {
       const data = {
-        name: fname,
-        last_name: lname,
-        username,
-        email,
-        password,
-        password_confirmation: cPassword,
+        name: formData.fname.value,
+        last_name: formData.lname.value,
+        username: formData.username.value,
+        email: formData.email.value,
+        password: formData.password.value,
+        password_confirmation: formData.cPassword.value,
       };
 
       dispatch(registerData(data));
-      fnameResetHandler("");
-      lnameResetHandler("");
-      usernameResetHandler("");
-      emailResetHandler("");
-      passwordResetHandler("");
-      cPasswordResetHandler("");
     } else {
     }
   };
+  let isFormValid = true;
+  for (const key in formData) {
+    isFormValid = isFormValid && formData[key].valid;
+  }
   return (
     <>
-     
-      <div className="c-app c-default-layout flex-row align-items-center">
+      <div
+        className="c-app c-default-layout flex-row align-items-center"
+        style={{ marginTop: "5%" }}
+      >
         <CContainer>
           <CRow className="justify-content-center">
-            <CCol md="9" lg="7" xl="6">
+            <CCol md={12} lg={7} xl={6} sm={12}>
               <CCard className="mx-4">
                 <CCardBody className="p-4">
                   <CForm onSubmit={onRegisterHandler}>
@@ -136,93 +159,125 @@ const Register = () => {
                     {state.message.isRegistered && (
                       <RAlert alert={state.message} />
                     )}
-                    <RInput
-                      class="mb-3"
-                      iconName="cil-user"
-                      name="First Name"
-                      auto="firstname"
-                      icon={true}
-                      value={fname}
-                      change={fnameChangeHandler}
-                      blur={fnameBlurHandler}
-                    />
-                    {fnameIsInvalid && <Error error="First name is required" />}
-                    <RInput
-                      class="mb-3"
-                      iconName="cil-user"
-                      name="Last Name"
-                      auto="lastname"
-                      icon={true}
-                      value={lname}
-                      change={lnameChangeHandler}
-                      blur={lnameBlurHandler}
-                    />
-                    {lnameIsInvalid && <Error error="Last name is required" />}
-                    <RInput
-                      class="mb-3"
-                      iconName="cil-user"
-                      name="Username"
-                      auto="username"
-                      icon={true}
-                      value={username}
-                      change={usernameChangeHandler}
-                      blur={usernameBlurHandler}
-                    />
-                    {usernameIsInvalid && (
-                      <Error error="Username is required" />
-                    )}
-                    <RInput
-                      class="mb-3"
-                      iconName="@"
-                      name="Email Address"
-                      auto="email"
-                      icon={false}
-                      value={email}
-                      change={emailChangeHandler}
-                      blur={emailBlurHandler}
-                    />
-                    {emailIsInvalid && (
-                      <Error error="Enter a Valid Email Address" />
-                    )}
-                    <RInput
-                      class="mb-3"
-                      iconName="cil-lock-locked"
-                      name="Password"
-                      auto="password"
-                      icon={true}
-                      value={password}
-                      change={passwordChangeHandler}
-                      blur={passwordBlurHandler}
-                    />
-                    {passwordIsInvalid && (
-                      <Error error="Password is required!!" />
-                    )}
-                    <RInput
-                      class="mb-3"
-                      iconName="cil-lock-locked"
-                      name="Confirm Password"
-                      auto="confirm password"
-                      icon={true}
-                      value={cPassword}
-                      change={cPasswordChangeHandler}
-                      blur={cPasswordBlurHandler}
-                    />
-                    {cPasswordIsInvalid && (
-                      <Error error="Password does n't match!!" />
-                    )}
-
+                    <div className="mb-3">
+                      <RInput
+                        iconName="cil-user"
+                        name="First Name"
+                        auto="firstname"
+                        id="fname"
+                        icon={true}
+                        value={formData.fname.value}
+                        change={onInputChangeHandler}
+                        control={true}
+                        blur={onInputBlurHandler}
+                      />
+                      {!formData.fname.valid && formData.fname.touched && (
+                        <Error error={formData.fname.error} />
+                      )}
+                    </div>
+                    <div className="mb-3">
+                      <RInput
+                        iconName="cil-user"
+                        name="Last Name"
+                        auto="lastname"
+                        id="lname"
+                        icon={true}
+                        value={formData.lname.value}
+                        change={onInputChangeHandler}
+                        control={true}
+                        blur={onInputBlurHandler}
+                      />
+                      {!formData.lname.valid && formData.lname.touched && (
+                        <Error error={formData.lname.error} />
+                      )}
+                    </div>
+                    <div className="mb-3">
+                      <RInput
+                        iconName="cil-user"
+                        name="Username"
+                        auto="username"
+                        icon={true}
+                        id="username"
+                        value={formData.username.value}
+                        change={onInputChangeHandler}
+                        control={true}
+                        blur={onInputBlurHandler}
+                      />
+                      {!formData.username.valid &&
+                        formData.username.touched && (
+                          <Error error={formData.username.error} />
+                        )}
+                    </div>
+                    <div className="mb-3">
+                      <RInput
+                        iconName="@"
+                        name="example@gmail.com"
+                        auto="email"
+                        id="email"
+                        icon={false}
+                        value={formData.email.value}
+                        change={onInputChangeHandler}
+                        control={true}
+                        blur={onInputBlurHandler}
+                      />
+                      {!formData.email.valid && formData.email.touched && (
+                        <Error error={formData.email.error} />
+                      )}
+                    </div>
+                    <div className="mb-3">
+                      <RInput
+                        iconName="cil-lock-locked"
+                        name="Password"
+                        auto="password"
+                        id="password"
+                        icon={true}
+                        value={formData.password.value}
+                        change={onInputChangeHandler}
+                        control={true}
+                        blur={onInputBlurHandler}
+                        append={true}
+                        click={onPasswordGenerateHandler}
+                      />
+                      {!formData.password.valid &&
+                        formData.password.touched && (
+                          <Error error={formData.password.error} />
+                        )}
+                    </div>
+                    <div className="mb-3">
+                      <RInput
+                        iconName="cil-lock-locked"
+                        name="Confirm Password"
+                        auto="confirm password"
+                        icon={true}
+                        id="cPassword"
+                        value={formData.cPassword.value}
+                        change={onInputChangeHandler}
+                        control={true}
+                        blur={onInputBlurHandler}
+                        append={false}
+                      />
+                      {!formData.cPassword.valid &&
+                        formData.cPassword.touched && (
+                          <Error error={formData.cPassword.error} />
+                        )}
+                    </div>
                     <RButton
                       name="Create Account"
                       color="success"
                       block={true}
                       type="submit"
                       loading={state.isLoading}
+                      disabled={!isFormValid}
                     />
                   </CForm>
                 </CCardBody>
                 <CCardFooter className="p-4">
                   <CRow>
-                    <CCol xs="12" sm="6">
+                    <div>
+                      If you have already an account with us, please
+                      <Link to="/login"> Login here</Link>
+                    </div>
+                    {/* <CCol xs="12" sm="6">
                       <CButton className="btn-facebook mb-1" block>
                         <span>facebook</span>
                       </CButton>
@@ -231,7 +286,7 @@ const Register = () => {
                       <CButton className="btn-twitter mb-1" block>
                         <span>twitter</span>
                       </CButton>
-                    </CCol>
+                    </CCol> */}
                   </CRow>
                 </CCardFooter>
               </CCard>

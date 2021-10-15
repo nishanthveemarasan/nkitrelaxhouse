@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import API from "src/axios/axios";
+import { sendPostApi } from "src/service/appService";
 import { registerStoreAction } from "./store";
 
 const initialState = {
@@ -36,8 +37,7 @@ export default registerSlice;
 export const registerData = (data) => {
   return (dispatch) => {
     dispatch(registerStoreAction.sendRequest());
-    console.log(data);
-    API.post("users/create", data)
+    sendPostApi("users/create", data)
       .then((response) => {
         const array = [response.data.data.msg];
         dispatch(

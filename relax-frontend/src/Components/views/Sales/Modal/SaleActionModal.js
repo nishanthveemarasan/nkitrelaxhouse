@@ -38,6 +38,7 @@ const SaleActionModal = () => {
     return {
       saleModalData: state.saleStore.saleModalData,
       updateSaleData: state.saleStore.updateSaleData,
+      saleData: state.saleStore.saleData,
     };
   };
   const state = useSelector(mapStateToProps);
@@ -63,15 +64,26 @@ const SaleActionModal = () => {
   };
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    const data = {
-      sell_type: status,
-      sellcount: quantity,
-      note: note,
-      action: state.saleModalData.modalAction.toLowerCase(),
-      id: state.saleModalData.modalData.id,
-      itemname: productName,
-    };
-    dispatch(updateSaleData(data));
+    if (state.saleModalData.modalAction === "Update") {
+      const data = {
+        sell_type: status,
+        sellcount: quantity,
+        note: note,
+        action: state.saleModalData.modalAction.toLowerCase(),
+        id: state.saleModalData.modalData.id,
+        itemname: productName,
+      };
+      dispatch(updateSaleData(data));
+    } else {
+      const saleId = state.saleModalData.modalData.id;
+      const saleData = findSale(state.saleData.data, saleId);
+      const data = {
+        id: saleId,
+        itemname: saleData.itemname,
+        action: "delete",
+      };
+      dispatch(updateSaleData(data));
+    }
   };
   return (
     <CModal
@@ -83,6 +95,12 @@ const SaleActionModal = () => {
       onClose={modalCloseHandler}
       onSubmitHandler={onSubmitHandler}
       loading={state.updateSaleData.isLoading}
+      showButton={
+        state.updateSaleData.isUpdated &&
+        state.saleModalData.modalAction === "Cancel"
+          ? false
+          : true
+      }
     >
       {state.updateSaleData.isUpdated && (
         <CAlert
@@ -141,14 +159,10 @@ const SaleActionModal = () => {
   );
 };
 export default SaleActionModal;
-/**
- * created_at: "2021-07-17T06:44:38.000000Z"
-id: 216
-itemname: "B9 Armchair - Wenge"
-note: null
-order_number: "212129"
-packed_by: null
-sell_type: "received"
-sellcount: "1"
-updated_at: "2021-07-17T
- */
+
+const findSale = (data, id) => {
+  const element = data.find((el) => {
+    return el.id === id;
+  });
+  return element;
+};

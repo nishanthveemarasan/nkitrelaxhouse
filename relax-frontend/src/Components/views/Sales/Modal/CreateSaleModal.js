@@ -84,6 +84,7 @@ const CreateSaleModal = () => {
       onSubmitHandler={onSubmitHandler}
       loading={state.addOrder.isLoading}
       size="lg"
+      showButton={true}
     >
       {state.addOrder.orderCreated && (
         <CAlert color={state.addOrder.color} text={state.addOrder.msg} />
@@ -99,14 +100,14 @@ const CreateSaleModal = () => {
             size="6"
           />
         </Col>
-        <Col>
+        {/* <Col>
           <CButton
             color="info"
             name="Get New Order"
             loading={state.refreshORderId}
             click={onReloadNewOrderIdHandler}
           />
-        </Col>
+        </Col> */}
       </Row>
 
       <Card header="Add Items To Order" color="info">

@@ -36,23 +36,24 @@ const ContactInfo = (props) => {
     color: "",
   });
   useEffect(() => {
-    if (data) {
-      setPhone(data.phone);
-      setCity(data.city);
-      setCountry(data.country);
-      setZip(data.postal_code);
+    if (data.address) {
+      setPhone(data.address.phone ? data.address.phone : "");
+      setCity(data.address.city ? data.address.city : "");
+      setCountry(data.address.country ? data.address.country : "");
+      setZip(data.address.postal_code ? data.address.postal_code : "");
     }
   }, [setPhone, setCity, setCity, setZip, data]);
 
-  const onUpdateContactInfoHandler = (e) => {
+  const onUpdateContactInfoHandler = async (e) => {
     e.preventDefault();
-    const data = {
+    const contactData = {
+      user_id: data.id,
       phone,
       postal_code: zip,
       city,
       country,
     };
-    console.log(data);
+
     if (!phone || !zip || !city || !country) {
       setResponse((prevState) => {
         return {
@@ -70,22 +71,24 @@ const ContactInfo = (props) => {
           dataReceived: false,
         };
       });
-      sendPostAdminApi("users/update-a-user", data)
-        .then((response) => {
-          setResponse((prevState) => {
-            return {
-              ...prevState,
-              dataReceived: true,
-              msg: response.data.data.msg,
-              color: "success",
-            };
-          });
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.log(error.response);
-          setLoading(false);
+      try {
+        const response = await sendPostAdminApi(
+          "users/update-contact-info",
+          contactData
+        );
+        setResponse((prevState) => {
+          return {
+            ...prevState,
+            dataReceived: true,
+            msg: response.data.data.msg,
+            color: "success",
+          };
         });
+        setLoading(false);
+      } catch (error) {
+        console.log(error.response);
+        setLoading(false);
+      }
     }
   };
   return (

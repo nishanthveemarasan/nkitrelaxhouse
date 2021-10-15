@@ -28,4 +28,12 @@ class LikeRepository
             ->delete();
         return $isUserLiked;
     }
+
+    public function getUserPostLikes($id)
+    {
+        $likes = Likes::with(['posts' => function ($query) {
+            $query->where('status', 'publish');
+        }])->where('user_id', $id)->paginate(10);
+        return $likes;
+    }
 }

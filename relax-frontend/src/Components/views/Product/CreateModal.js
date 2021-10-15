@@ -8,6 +8,7 @@ import { productStoreAction } from "src/store/store";
 import { Alert, Col, Row } from "react-bootstrap";
 import FormRadio from "src/Components/UI/Input/FormRadio";
 import FormInputLabel from "src/Components/UI/Input/FormInputLabel";
+import { sendPostAdminApi } from "src/service/appService";
 const CreateModal = () => {
   const {
     inputValue: productName,
@@ -60,7 +61,7 @@ const CreateModal = () => {
       dispatch(productStoreAction.dataNotChanged());
       var formData = new FormData();
       formData.append("file", selectedFile);
-      API.post("product/add-multiple-products", formData)
+      sendPostAdminApi("product/add-multiple-products", formData)
         .then((response) => {
           const msg = response.data.data.msg;
           const type = response.data.data.type;
@@ -103,7 +104,7 @@ const CreateModal = () => {
       };
 
       dispatch(productStoreAction.dataNotChanged());
-      API.post("add-product", data)
+      sendPostAdminApi("add-product", data)
         .then((response) => {
           const msg = response.data.data.msg;
           const type = response.data.data.type;
@@ -146,6 +147,7 @@ const CreateModal = () => {
       size="md"
       onSubmitHandler={onSubmitHandler}
       loading={modalData.isLoading}
+      showButton={true}
     >
       {modalData.alertText && (
         <Alert variant={modalData.alertType}>{modalData.alertText}</Alert>

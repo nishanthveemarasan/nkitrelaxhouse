@@ -70,12 +70,15 @@ class PostService
             return array('msg' => "You Post has been Altered Succesfully!!!");
         }
     }
-    public function delete($id)
+    public function delete($id, $action)
     {
 
-        $deletePost =  $this->postRepository->delete($id);
+        $deletePost =  $this->postRepository->delete($id, $action);
         if ($deletePost) {
-            return array('msg' => "You Post has been Deleted Successfully!!!");
+            if ($action === 'active')
+                return array('msg' => "Post has been Enabled Successfully!!!");
+            else
+                return array('msg' => "Post has been Disabled Successfully!!!");
         }
     }
 }

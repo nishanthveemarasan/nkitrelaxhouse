@@ -72,6 +72,11 @@ const ProductModal = () => {
       size="md"
       onSubmitHandler={onSubmitHandler}
       loading={state.updateData.isLoading}
+      showButton={
+        state.updateData.dataUpdated && state.modalData.modalAction === "Delete"
+          ? false
+          : true
+      }
     >
       {state.updateData.dataUpdated && (
         <CAlert color={state.updateData.color} text={state.updateData.msg} />

@@ -10,7 +10,7 @@
 
 <body>
     <h4>Hi {{$data['name']}} {{$data['last_name']}} </h4>
-    <p class="lead">Welcome to Relaxhouse Admin Panel, and use the folling login details to login to our system. </p>
+    <p class="lead">Welcome to Myshop Admin Panel, and use the following login details to login to our system. </p>
     <table class="table table-borderless">
         <thead>
             <tr>
@@ -19,11 +19,11 @@
         </thead>
         <tbody>
             <tr>
-                <td style="width:23%">Username</td>
+                <td style="width:23%">Username : </td>
                 <td> <span class="font-weight-bold">{{$data['username']}}</span></td>
             </tr>
             <tr>
-                <td style="width:23%">Password</td>
+                <td style="width:23%">Password : </td>
                 <td> <span class="font-weight-bold">{{$data['password']}}</span></td>
             </tr>
         </tbody>

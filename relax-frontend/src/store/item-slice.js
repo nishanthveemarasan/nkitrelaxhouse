@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getProductApi, searchApi } from "src/service/appService";
+import { getProductApi, searchApi, sendGetApi } from "src/service/appService";
 import { itemStoreAction } from "./store";
 
 const initialState = {
@@ -49,7 +49,7 @@ export const searchItems = (searchString) => {
       dispatch(getItemData("", 10));
     } else {
       dispatch(itemStoreAction.sendRequest());
-      searchApi("get-search-details", searchString)
+      sendGetApi("get-search-details", searchString)
         .then((response) => {
           console.log(response.data.data);
           dispatch(

@@ -53,4 +53,19 @@ class CommentService
 
         return $this->commentRepository->getPostComments($id);
     }
+
+    public function update($data)
+    {
+        if ($data['action'] == 'Approve') {
+            $update = $this->commentRepository->update($data['id'], 'approve');
+            if ($update) {
+                return array('msg' => 'Comment has been Approved successfully');
+            }
+        } else {
+            $update = $this->commentRepository->update($data['id'], 'disapprove');
+            if ($update) {
+                return array('msg' => 'Comment has been Disabled successfully');
+            }
+        }
+    }
 }

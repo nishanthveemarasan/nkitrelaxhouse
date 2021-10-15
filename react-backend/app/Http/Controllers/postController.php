@@ -6,6 +6,7 @@ use Throwable;
 use App\Service\PostService;
 use Illuminate\Http\Request;
 use App\Service\APIResponseService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class postController extends Controller
@@ -53,7 +54,9 @@ class postController extends Controller
     public function create(Request $request)
     {
         try {
+            $userId = Auth::user()->id;
             $data = $request->all();
+            $data['user_id'] = $userId;
             $validation = Validator::make(
                 $data,
                 [
@@ -108,10 +111,11 @@ class postController extends Controller
         }
     }
 
-    public function delete($id)
+    public function delete(Request $request)
     {
         try {
-            $delete = $this->postService->delete($id);
+            $data = $request->all();
+            $delete = $this->postService->delete($data['id'], $data['action']);
             $response =  $this->apiResponseService->success(200, $delete);
             return $response;
         } catch (Throwable $e) {

@@ -2,8 +2,11 @@
 
 namespace App\Repository;
 
+use App\Models\Address;
+use App\Models\Job;
 use App\Models\User;
 use App\Models\UserLogs;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Hash;
 
 class UserRepository
@@ -30,13 +33,17 @@ class UserRepository
 
     public function getUser($id)
     {
-        $userLogs = User::find($id)->toArray();
-        return $userLogs;
+        $user = User::with(['jobs', 'address'])->withCount(['posts' => function (Builder $query) {
+            $query->where('type', 'active');
+        }, 'comments' => function (Builder $query) {
+            $query->where('status', 'approve');
+        }, 'likes'])->where('id', $id)->get()->toArray();
+        return $user[0];
     }
 
     public function getUsers()
     {
-        $users = User::withCount(['posts', 'comments', 'likes'])->paginate(10);
+        $users = User::with(['jobs', 'address'])->withCount(['posts', 'comments', 'likes'])->paginate(10);
         return $users;
     }
 
@@ -60,9 +67,40 @@ class UserRepository
 
     public function updateUser($id, $data)
     {
+
         $updateUser = User::where('id', $id)
             ->update($data);
         return $updateUser;
+    }
+
+    public function updateContactInfo($id, $data)
+    {
+        $checkUSer = Address::where('user_id', $id)->exists();
+        if ($checkUSer) {
+            $updateUser = Address::where('user_id', $id)
+                ->update($data);
+            return $updateUser;
+        } else {
+            $data['user_id'] = $id;
+            $create = Address::create($data);
+            return $create;
+        }
+    }
+    public function checkJobUser($id)
+    {
+        $checkUSer = Job::where('user_id', $id)->exists();
+        return $checkUSer;
+    }
+    public function updateJobInfo($id, $data)
+    {
+        $update = Job::where('user_id', $id)
+            ->update($data);
+        return $update;
+    }
+    public function createJobInfo($data)
+    {
+        $update = Job::create($data);
+        return $update;
     }
 
     public function checkUsername($name)
@@ -91,7 +129,6 @@ class UserRepository
     }
     public function updatePassword($id, $password)
     {
-        return true;
         $update = User::where('id', (int)$id)->update([
             'password' => Hash::make($password),
         ]);

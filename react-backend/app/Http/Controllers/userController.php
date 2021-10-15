@@ -2,23 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Throwable;
+use App\Models\User;
+use App\Repository\UserRepository;
 use App\Service\UserService;
 use Illuminate\Http\Request;
 use App\Service\APIResponseService;
-use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class userController extends Controller
 {
     public $userService;
+    public $userRepository;
     public $apiResponseService;
 
-    function __construct(UserService $userService, APIResponseService $apiResponseService)
+    function __construct(UserService $userService, APIResponseService $apiResponseService, UserRepository $userRepository)
     {
         $this->userService = $userService;
         $this->apiResponseService = $apiResponseService;
+        $this->userRepository = $userRepository;
     }
     public function getLogs()
     {
@@ -43,7 +47,7 @@ class userController extends Controller
     public function getUser()
     {
         try {
-            $id = 1;
+            $id = Auth::user()->id;
             $getUserLogs = $this->userService->getUser($id);
             $response =  $this->apiResponseService->success(200, $getUserLogs);
             return $response;
@@ -104,12 +108,56 @@ class userController extends Controller
     public function updateUser(Request $request)
     {
         try {
-            $userId = 1;
+            $userId = Auth::user()->id;
             $data = $request->all();
             $data['user_id'] = $userId;
             $editUserRole = $this->userService->updateUser($data);
             $response =  $this->apiResponseService->success(200, $editUserRole);
             return $response;
+        } catch (Throwable $e) {
+            return $this->apiResponseService->failed($e->getMessage(), 500);
+        }
+    }
+    public function updateContactInfo(Request $request)
+    {
+        try {
+            // $userId = Auth::user()->id;
+            $data = $request->all();
+            // $data['user_id'] = $userId;
+            $editUserRole = $this->userService->updateContactInfo($data);
+            $response =  $this->apiResponseService->success(200, $editUserRole);
+            return $response;
+        } catch (Throwable $e) {
+            return $this->apiResponseService->failed($e->getMessage(), 500);
+        }
+    }
+    public function updateJobInfo(Request $request)
+    {
+        try {
+            $data = $request->all();
+            $checkUser = $this->userRepository->checkJobUser($data['user_id']);
+            if ($checkUser) {
+                $jobData = $this->userService->updateJobInfo($data);
+                $response =  $this->apiResponseService->success(200, $jobData);
+                return $response;
+            } else {
+                $validation = Validator::make(
+                    $data,
+                    [
+                        'emp_number' => 'bail|required|unique:job|digits:6'
+                    ],
+                    $messages = [],
+                    [
+                        'emp_number' => "Employee Number"
+                    ]
+                );
+                if ($validation->fails()) {
+                    return $this->apiResponseService->failed($validation->errors(), 500);
+                }
+                $jobData = $this->userService->createJobInfo($data);
+                $response =  $this->apiResponseService->success(200, $jobData);
+                return $response;
+            }
         } catch (Throwable $e) {
             return $this->apiResponseService->failed($e->getMessage(), 500);
         }
@@ -163,9 +211,9 @@ class userController extends Controller
         try {
             $imagePath = $request->file('file');
             $imageName = $imagePath->getClientOriginalName();
-            $userId = 1;
+            $userId = Auth::user()->id;
             $path = $request->file('file')->storeAs('profileImage', $imageName, 'public');
-            $imageUrl = "http://nkservice.test/react-backend/storage/app/public/" . $path;
+            $imageUrl = "https://nkitservice.com/relax/storage/app/public/" . $path;
             $data = array(
                 'userId' => $userId,
                 'imageUrl' => $imageUrl
@@ -183,22 +231,29 @@ class userController extends Controller
         try {
             $username = $request['userName'];
             $password = $request['password'];
+
             if (Auth::attempt([
                 'username' => $username,
                 'password' => $password
             ])) {
                 $user = Auth::user();
                 $resArr['token'] = $user->createToken('api-application')->accessToken;
-                $resArr['name'] = $user->name;
                 $resArr['id'] = $user->id;
+                $resArr['name'] = $user->name;
+                $resArr['role_id'] = $user->roles;
+                $data = User::where('id', $user->id)->withCount(['posts', 'comments', 'likes'])->get()->toArray();
+                $resArr['posts'] = $data[0]['posts_count'];
+                $resArr['comments'] = $data[0]['comments_count'];
+                $resArr['likes'] = $data[0]['likes_count'];
                 $response =  $this->apiResponseService->success(200, $resArr);
                 return $response;
             } else {
-                $response =  $this->apiResponseService->success(200, [], 'failed', ['error' => "Authentication failed"]);
+                $response =  $this->apiResponseService->failed("Authentication Failed: Incorrect Login Details", 500);
                 return $response;
                 //return response()->json(['error' => "unAuthorised Access"], 203);
             }
         } catch (Throwable $e) {
+            return $this->apiResponseService->failed($e->getMessage(), 500);
         }
     }
 
@@ -213,7 +268,7 @@ class userController extends Controller
     public function reset(Request $request)
     {
         try {
-            $id = 1;
+            // $id = Auth::user()->id;
             $data = $request->all();
             $validation = Validator::make(
                 $data,
@@ -224,7 +279,7 @@ class userController extends Controller
             if ($validation->fails()) {
                 return $this->apiResponseService->failed($validation->errors(), 500);
             }
-            $update = $this->userService->updatePassword($id, $data['password']);
+            $update = $this->userService->updatePassword($data['user_id'], $data['password']);
             $response =  $this->apiResponseService->success(200, $update);
             return $response;
         } catch (Exception $e) {

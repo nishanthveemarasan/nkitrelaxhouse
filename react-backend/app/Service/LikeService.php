@@ -43,4 +43,10 @@ class LikeService
             );
         }
     }
+
+    public function getUserPostLikes($id)
+    {
+        $likes = $this->likeRepository->getUserPostLikes($id);
+        return $likes;
+    }
 }

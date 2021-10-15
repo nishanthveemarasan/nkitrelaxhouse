@@ -26,15 +26,15 @@ const Job = (props) => {
   } = useFormValidate();
 
   useEffect(() => {
-    if (data) {
-      setJobTitle(data.job_title);
-      if (data.job_started_date) {
-        setJobStartedDate(getDate(data.job_started_date));
+    if (data.jobs) {
+      setJobTitle(data.jobs.job_title);
+      if (data.jobs.job_started_date) {
+        setJobStartedDate(getDate(data.jobs.job_started_date));
       } else {
         setJobStartedDate("N/A");
       }
-      if (data.job_type) {
-        setJobType(getUpperCaseString(data.job_type, "_"));
+      if (data.jobs.job_type) {
+        setJobType(getUpperCaseString(data.jobs.job_type, "-"));
       } else {
         setJobType("N/A");
       }

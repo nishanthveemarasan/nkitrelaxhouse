@@ -43,9 +43,10 @@ const PasswordReset = (props) => {
     }
   };
 
-  const onResetPasswordHandler = (e) => {
+  const onResetPasswordHandler = async (e) => {
     e.preventDefault();
-    const data = {
+    const passwordData = {
+      user_id: data.id,
       password,
       password_confirmation,
     };
@@ -61,23 +62,19 @@ const PasswordReset = (props) => {
           dataReceived: false,
         };
       });
-      sendPostAdminApi("users/password-reset", data)
-        .then((response) => {
-          console.log(response.data.data);
-          setResponse((prevState) => {
-            return {
-              ...prevState,
-              dataReceived: true,
-              msg: response.data.data.msg,
-              color: "success",
-            };
-          });
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.log(error.response);
-          setLoading(false);
-        });
+      const response = await sendPostAdminApi(
+        "users/password-reset",
+        passwordData
+      );
+      setResponse((prevState) => {
+        return {
+          ...prevState,
+          dataReceived: true,
+          msg: response.data.data.msg,
+          color: "success",
+        };
+      });
+      setLoading(false);
     } else {
       setResponse((prevState) => {
         return {
