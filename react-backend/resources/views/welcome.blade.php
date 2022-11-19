@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ABCD</title>
+    <title>{{$name}}</title>
     <style>
         * {
             font-family: "Source Sans Pro", sans-serif;
@@ -103,13 +103,13 @@
             <tr>
                 <td style="text-align: center;" colspan="3">
                     <div style="font-size:1.5rem">
-                        <strong>CHOLA TRANSPORT LTD</strong>
+                        <strong>{{$name}}</strong>
                     </div>
                     <div style="font-size:0.95rem">
-                        14 Adersford Close, Brockley, London SE4 2AE
+                        {{$company_information['lineOne']}}, {{$company_information['lineTwo']}}, {{$company_information['linethree']}}, {{$company_information['city']}} {{$company_information['postCode']}}
                     </div>
                     <div style="font-size:0.95rem">
-                        Tel: 07772425624, Email: v4ashman@hotmail.co.uk
+                        Tel: {{$company_information['phone']}}, Email: {{$company_information['email']}}
                     </div>
                 </td>
             </tr>
@@ -123,11 +123,11 @@
                     </tr>
                     <tr style="font-size: 13px;">
                         <td style="padding:20px 0 0 10px;" colspan="2">
-                            <div><strong>Belvedere warehousing & Distribution </strong></div>
-                            <div>Unit 8, Mulberry way</div>
-                            <div>Belvedere</div>
-                            <div>Kent</div>
-                            <div>DA17 6AN</div>
+                            <div><strong>{{$billing_address['billingCompanyName']}} </strong></div>
+                            <div>{{$billing_address['lineOne']}}, {{$billing_address['lineTwo']}}</div>
+                            <div>{{$billing_address['linethree']}}</div>
+                            <div>{{$billing_address['city']}}</div>
+                            <div>{{$billing_address['postCode']}}</div>
                         </td>
                     </tr>
                 </table>
@@ -148,7 +148,7 @@
                                     <span style="margin-left:5px; margin-right:5px;">
                                         :
                                     </span>
-                                    {{$invoiceDate}}
+                                    {{$data['invoiceDate']}}
                                 </td>
                             </tr>
                             <tr>
@@ -159,6 +159,7 @@
                                     <span style="margin-left:5px; margin-right:5px;">
                                         :
                                     </span>
+                                    {{$invoiceNumber}}
                                 </td>
                             </tr>
                             <tr>
@@ -194,7 +195,7 @@
                 </tr>
                 <tr style="font-size: 13px">
                     <td>
-                        For Service provided by CHOLA TRANSPORT LTD to Belvedere warehousing & Distribution
+                        For Service provided by {{$name}} to {{$billing_address['billingCompanyName']}}
                     </td>
                 </tr>
             </table>
@@ -207,30 +208,30 @@
                 <th class="th-header-invoice">Service Price</th>
                 <th class="th-header-invoice">Total</th>
             </tr>
-            @for ($i = 0; $i < count($data); $i++) @if($i==count($data) - 1) <tr>
-                <td style="text-align:center;font-size:12px">{{$data[$i]['date']}} ({{$data[$i]['code']}})</td>
+            @for ($i = 0; $i < count($data['data']); $i++) @if($i==count($data['data']) - 1) <tr>
+                <td style="text-align:center;font-size:12px">{{$data['data'][$i]['date']}} ({{$data['data'][$i]['code']}})</td>
                 <td style="text-align:center;font-size:12px">1</td>
-                <td style="text-align:center;font-size:12px">£{{$data[$i]['rate']}}</td>
-                <td style="text-align:center;font-size:12px">£{{$data[$i]['rate']}}</td>
-                <td style="text-align: center;padding-right:15px;font-size:12px;background-color: #f2f2f2">£{{$data[$i]['rate']}}</td>
+                <td style="text-align:center;font-size:12px">£{{$data['data'][$i]['rate']}}</td>
+                <td style="text-align:center;font-size:12px">£{{$data['data'][$i]['rate']}}</td>
+                <td style="text-align: center;padding-right:15px;font-size:12px;background-color: #f2f2f2">£{{$data['data'][$i]['rate']}}</td>
                 </tr>
                 @else
                 <tr>
-                    <td style="text-align:center;font-size:12px;border-bottom: 1px solid white;">{{$data[$i]['date']}} ({{$data[$i]['code']}})</td>
+                    <td style="text-align:center;font-size:12px;border-bottom: 1px solid white;">{{$data['data'][$i]['date']}} ({{$data['data'][$i]['code']}})</td>
                     <td style="text-align:center;font-size:12px;border-bottom: 1px solid white;">1</td>
-                    <td style="text-align:center;font-size:12px;border-bottom: 1px solid white;">£{{$data[$i]['rate']}}</td>
-                    <td style="text-align:center;font-size:12px;border-bottom: 1px solid white;">£{{$data[$i]['rate']}}</td>
-                    <td style="text-align: center;padding-right:15px;font-size:12px;background-color: #f2f2f2;border-bottom: 1px solid #f2f2f2;">£{{$data[$i]['rate']}}</td>
+                    <td style="text-align:center;font-size:12px;border-bottom: 1px solid white;">£{{$data['data'][$i]['rate']}}</td>
+                    <td style="text-align:center;font-size:12px;border-bottom: 1px solid white;">£{{$data['data'][$i]['rate']}}</td>
+                    <td style="text-align: center;padding-right:15px;font-size:12px;background-color: #f2f2f2;border-bottom: 1px solid #f2f2f2;">£{{$data['data'][$i]['rate']}}</td>
                 </tr>
                 @endif
                 @endfor
                 <tr>
                     <td colspan="4" style="text-align: right;padding-right:5px; font-size:12px;background-color: white; border-bottom: 1px solid white;border-left: 1px solid white;"><strong>SUB TOTAL</strong></td>
-                    <td style="text-align: center;padding-right:15px;font-size:12px;background-color: #f2f2f2"><strong>£{{$total}}</strong></td>
+                    <td style="text-align: center;padding-right:15px;font-size:12px;background-color: #f2f2f2"><strong>£{{$data['total']}}</strong></td>
                 </tr>
                 <tr>
-                    <td colspan="4" style="text-align: right;padding-right:5px;font-size:12px;border-left: 1px solid white;border-bottom: 1px solid white;"><strong>TOTAL</strong></td>
-                    <td style="text-align: center;padding-right:15px;font-size:12px;background-color: #f2f2f2"><strong>£{{$total}}</strong></td>
+                    <td colspan="4" style="text-align: right;padding-right:5px;font-size:12px;background-color: white;border-left: 1px solid white;border-bottom: 1px solid white;"><strong>TOTAL</strong></td>
+                    <td style="text-align: center;padding-right:15px;font-size:12px;background-color: #f2f2f2"><strong>£{{$data['total']}}</strong></td>
                 </tr>
         </table>
         <div style="text-align: right;margin-top:2%; font-weight:bold;font-size: 11px;">
@@ -248,19 +249,19 @@
             </tr>
             <tr style="font-size: 13px;">
                 <td width="33%">
-                    <div>14 Aldersford Close</div>
-                    <div>Brockley</div>
-                    <div>London, SE4 2AE</div>
+                    <div>{{$company_information['lineOne']}} {{$company_information['lineTwo']}}</div>
+                    <div>{{$company_information['linethree']}}</div>
+                    <div>{{$company_information['city']}}, {{$company_information['postCode']}}</div>
                 </td>
                 <td width="42%">
-                    <div>Rathivarman Soundararasha</div>
-                    <div>Phone: 07772425624</div>
-                    <div>Email: v4ashman@hotmail.co.uk</div>
+                    <div>{{$company_information['ownerName']}}</div>
+                    <div>Phone: {{$company_information['phone']}}</div>
+                    <div>Email: {{$company_information['email']}}</div>
                 </td>
                 <td width="25%">
-                    <div>Bank Name : HSBC</div>
-                    <div>Sort-Code : 40 02 05</div>
-                    <div>Account No : 91723820</div>
+                    <div>Bank Name : {{$payment_details['bankName']}}</div>
+                    <div>Sort-Code : {{$payment_details['sortCode']}}</div>
+                    <div>Account No : {{$payment_details['accountNumber']}}</div>
                 </td>
             </tr>
         </table>

@@ -18,7 +18,7 @@ class APIResponseService
         return response()->json($response, $code);
     }
 
-    public function failed($exception, $code, $error = [])
+    public function failed($exception, $code,$line = null, $error = [])
     {
 
         $msg = 'failed';
@@ -26,6 +26,7 @@ class APIResponseService
             'success' => false,
             'http_status' => $code,
             'data' => [],
+            'lineNumber' => $line,
             'msg' => $msg,
             'error' => $exception
         ];

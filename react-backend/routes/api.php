@@ -111,6 +111,19 @@ Route::middleware(['auth:api'])->group(function () {
         Route::get('get-order-details/{id}', [StoreController::class, 'getSingleOrder']);
         Route::get('get-product-details/{id}', [StoreController::class, 'getSingleProduct']);
     });
+    Route::prefix('invoice')->group(function () {
+        Route::prefix('company')->group(function () {
+            Route::get('info', [InvoiceController::class, 'info']);
+            Route::post('set-name', [InvoiceController::class, 'setCompanyName']);
+            Route::prefix('{companyInvoice:uuid}')->group(function () {
+                Route::post('generate-invoice', [InvoiceController::class, 'generatePdf']);
+                Route::patch('set-name', [InvoiceController::class, 'updateCompanyName']);
+                Route::patch('set-details', [InvoiceController::class, 'updateCompanyDetails']);
+                Route::patch('set-billing-details', [InvoiceController::class, 'updateBillingDetails']);
+                Route::patch('set-bank-details', [InvoiceController::class, 'updateBankDetails']);
+            });
+        });
+    });
 });
 
 Route::get('error', [userController::class, 'error'])->name('error');
@@ -160,8 +173,4 @@ Route::prefix('gateway')->group(function () {
 });
 Route::prefix('klarna')->group(function () {
     Route::get('response', [PaymentController::class, 'kalrnaResponse']);
-});
-Route::prefix('invoice')->group(function () {
-    Route::get('generate', [InvoiceController::class, 'create']);
-    Route::post('create', [InvoiceController::class, 'generatePdf']);
 });

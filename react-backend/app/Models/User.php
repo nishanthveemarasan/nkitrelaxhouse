@@ -8,6 +8,7 @@ use App\Models\Posts;
 use App\Models\Address;
 use App\Models\Comments;
 use App\Models\UserLogs;
+use App\Models\CompanyInvoice;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -68,5 +69,10 @@ class User extends Authenticatable
     public function jobs()
     {
         return $this->hasOne(Job::class, 'user_id');
+    }
+
+    public function CompanyInvoices()
+    {
+        return $this->hasMany(CompanyInvoice::class, 'user_id');
     }
 }
