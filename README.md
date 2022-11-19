@@ -18,6 +18,10 @@
 
 # ADMIN
 
+### ADD COMMENTS TO POSTS
+
+![posts](readme/add_comments.JPG)
+
 ### Dashboard
 
 ![posts](readme/admin_dashboard.JPG)
