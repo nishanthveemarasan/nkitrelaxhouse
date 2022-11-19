@@ -12,7 +12,7 @@
 
 ![posts](readme/login_1.JPG)
 
-### Registrationa
+### Registration
 
 ![posts](readme/registration_1.JPG)
 
