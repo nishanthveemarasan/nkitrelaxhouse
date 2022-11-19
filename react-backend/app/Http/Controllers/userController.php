@@ -228,6 +228,7 @@ class userController extends Controller
 
     public function login(Request $request)
     {
+
         try {
             $username = $request['userName'];
             $password = $request['password'];

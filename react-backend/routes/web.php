@@ -27,3 +27,7 @@ Route::get('/image', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::prefix('invoice')->group(function () {
+    Route::get('generate', [InvoiceController::class, 'create']);
+    Route::post('create', [InvoiceController::class, 'generatePdf']);
+});

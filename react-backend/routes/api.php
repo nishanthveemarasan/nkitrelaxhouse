@@ -1,19 +1,21 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\commentController;
-use App\Http\Controllers\DashBoardController;
-use App\Http\Controllers\exportController;
-use App\Http\Controllers\LikeController;
-use App\Http\Controllers\MailController;
-use App\Http\Controllers\orderController;
-use App\Http\Controllers\postController;
-use App\Http\Controllers\productController;
-use App\Http\Controllers\StoreController;
-use App\Http\Controllers\TestController;
-use App\Http\Controllers\userController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LikeController;
+use App\Http\Controllers\MailController;
+use App\Http\Controllers\postController;
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\userController;
+use App\Http\Controllers\orderController;
+use App\Http\Controllers\StoreController;
+use App\Http\Controllers\exportController;
+use App\Http\Controllers\commentController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\productController;
+use App\Http\Controllers\DashBoardController;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -134,21 +136,32 @@ Route::prefix('user')->group(function () {
 ///store
 
 Route::prefix('store')->group(function () {
-    Route::post('add-to-cart', [StoreController::class, 'cachedItem']);
-    Route::post('remove-from-cart', [StoreController::class, 'removeProduct']);
-    Route::get('get', [StoreController::class, 'getCachedOrder']);
-    Route::get('delete/{id?}', [StoreController::class, 'delete']);
+    Route::post('add-to-cart', [StoreController::class, 'cachedItem']); //
+    Route::post('remove-from-cart', [StoreController::class, 'removeProduct']); //
+    Route::get('get', [StoreController::class, 'getCachedOrder']); //
+    Route::get('get-products/{row}', [StoreController::class, 'getProduct']); //
+    Route::get('get-product/{id}', [StoreController::class, 'getSingleProduct']); //
+    Route::post('cache-customer', [StoreController::class, 'cacheCustomer']); //
+    Route::get('get-cache-customer', [StoreController::class, 'getCacheCustomer']); //
+    Route::get('clear-cache', [StoreController::class, 'clearCache']); //
+    Route::get('delete/{id?}', [StoreController::class, 'delete']); //
     Route::get('search/{name}', [StoreController::class, 'search']);
-    Route::post('add-product', [StoreController::class, 'storeProduct']);
-    Route::post('update-product', [StoreController::class, 'updateProduct']);
-    Route::get('get-products/{row}', [StoreController::class, 'getProduct']);
-    Route::get('get-product/{id}', [StoreController::class, 'getSingleProduct']);
     Route::get('get-product-by-name/{name?}', [StoreController::class, 'getSingleProductByName']);
-    Route::post('cache-customer', [StoreController::class, 'cacheCustomer']);
-    Route::get('get-cache-customer', [StoreController::class, 'getCacheCustomer']);
-    Route::get('clear-cache', [StoreController::class, 'clearCache']);
     Route::post('filter_shop_data', [StoreController::class, 'filterShopProductData']);
     Route::post('make-payment', [StoreController::class, 'makePayment']);
-    // Route::get('get-order-details/{id}', [StoreController::class, 'getOrderDetails']);
+    Route::get('get-order/{id}', [StoreController::class, 'orderDetails']); //admin
+    Route::post('update-product', [StoreController::class, 'updateProduct']); //admin
+    Route::post('add-product', [StoreController::class, 'storeProduct']); //admin
     // Route::post('get-order-id/{id}', [StoreController::class, 'getAllOrderIds']);
+});
+
+Route::prefix('gateway')->group(function () {
+    Route::get('method', [PaymentController::class, 'index']);
+});
+Route::prefix('klarna')->group(function () {
+    Route::get('response', [PaymentController::class, 'kalrnaResponse']);
+});
+Route::prefix('invoice')->group(function () {
+    Route::get('generate', [InvoiceController::class, 'create']);
+    Route::post('create', [InvoiceController::class, 'generatePdf']);
 });
