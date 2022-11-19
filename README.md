@@ -24,6 +24,10 @@
 
 ![posts](readme/admin_dashboard_2.JPG)
 
+**Add Products**
+
+![posts](readme/update_user.JPG)
+
 ### STOCK MANAGEMENT
 
 ## PRODUCTS
