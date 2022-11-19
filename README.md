@@ -15,3 +15,10 @@
 ### Registrationa
 
 ![posts](readme/registration_1.JPG)
+
+# ADMIN
+
+### Dashboard
+
+![posts](readme/admin_dashboard.JPG)
+![posts](readme/admin_dashboard_2.JPG)
