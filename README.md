@@ -28,7 +28,29 @@
 
 ![posts](readme/update_user.JPG)
 
-### STOCK MANAGEMENT
+## ONLINE STORE MANAGEMENT
+
+### ONLINE STORE ACTIVE PRODUCTS
+
+![posts](readme/online_store_products.JPG)
+
+### ADD PRODUCTS TO ONLINE STORE
+
+![posts](readme/add_online_products.JPG)
+
+### UPDATE ONLINE STORE ACTIVE PRODUCTS
+
+![posts](readme/update_online_prodcuts.JPG)
+
+### INVOICES
+
+![posts](readme/view_invoice.JPG)
+
+**Update Invoices**
+
+![posts](readme/update_invoices.JPG)
+
+## STOCK MANAGEMENT
 
 ## PRODUCTS
 
