@@ -30,17 +30,51 @@
 
 ![posts](readme/products_1.JPG)
 
-**Add Products **
+** Add Products **
 
 ![posts](readme/add_products_1.JPG)
 
 ![posts](readme/add_products_2.JPG)
 
-**Update Products **
+** Update Products **
 
 ![posts](readme/update_product_1.JPG)
 
-**Delete Products **
+** Delete Products **
 
 ![posts](readme/delete_product_1.JPG)
+
+## ORDERS
+
+![posts](readme/orders_view_1.JPG)
+
+** Create Orders **
+
+![posts](readme/create_order_1.JPG)
+
+** Update Orders **
+
+![posts](readme/update_orders_1.JPG)
+
+** Delete Orders **
+
+![posts](readme/delete_order_1.JPG)
+
+## USERS
+
+![posts](readme/view_users_1.JPG)
+
+## POSTS
+
+![posts](readme/view_posta.JPG)
+
+** Add Posts **
+
+![posts](readme/add_posts.JPG)
+
+** Update Posts **
+
+![posts](readme/update%20posts.JPG)
+
+
 
