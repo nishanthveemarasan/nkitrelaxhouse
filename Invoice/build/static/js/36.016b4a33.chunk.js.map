@@ -1,0 +1,1 @@
+{"version":3,"sources":["Components/views/Message/Message.js"],"names":["Message"],"mappings":"gMAGeA,UAHC,WACd,OAAO","file":"static/js/36.016b4a33.chunk.js","sourcesContent":["const Message = () => {\r\n  return <h1>Welcome to mEssage area</h1>;\r\n};\r\nexport default Message;\r\n"],"sourceRoot":""}

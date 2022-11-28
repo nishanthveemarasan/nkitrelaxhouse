@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/views/Home/Product/Product.module.css"],"names":[],"mappings":"AAAA,wBACE,iBAAkB,CAClB,OAAQ,CACR,QAAS,CACT,SACF","file":"24.e51c8d64.chunk.css","sourcesContent":[".spinner {\r\n  position: absolute;\r\n  top: 50%;\r\n  left: 45%;\r\n  color: red;\r\n}\r\n"]}

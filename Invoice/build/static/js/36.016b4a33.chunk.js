@@ -1,0 +1,2 @@
+(this["webpackJsonp@coreui/coreui-free-react-admin-template"]=this["webpackJsonp@coreui/coreui-free-react-admin-template"]||[]).push([[36],{787:function(e,t,r){"use strict";r.r(t);var c=r(24);t.default=function(){return Object(c.jsx)("h1",{children:"Welcome to mEssage area"})}}}]);
+//# sourceMappingURL=36.016b4a33.chunk.js.map
