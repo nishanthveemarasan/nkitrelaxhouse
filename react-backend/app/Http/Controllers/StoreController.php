@@ -276,6 +276,15 @@ class StoreController extends Controller
             return $this->apiResponseService->failed($e->getMessage(), 500);
         }
     }
+    public function orderDetails($id)
+    {
+        try {
+            $data = $this->storeService->getOrderDetails($id);
+            return $this->apiResponseService->success(200, $data);
+        } catch (Throwable $e) {
+            return $this->apiResponseService->failed($e->getMessage(), 500);
+        }
+    }
     public function updateOrderStatus(Request $request)
     {
         try {

@@ -140,10 +140,10 @@ class StoreRepository
         // dd($result);
         return $result;
     }
+ 
     public function getOrderDetails($id)
     {
         $data = Payment::where('id', $id)->get()->toArray();
-        dd($data);
         return $data[0];
     }
     public function updateOrderStatus($data)

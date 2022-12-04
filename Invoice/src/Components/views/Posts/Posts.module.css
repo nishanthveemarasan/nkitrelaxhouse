@@ -1,0 +1,14 @@
+.delete {
+  color: red;
+  padding: 0 5px;
+}
+
+.view {
+  color: blue;
+  padding: 0 5px;
+}
+
+.edit {
+  color: green;
+  padding: 0 5px;
+}

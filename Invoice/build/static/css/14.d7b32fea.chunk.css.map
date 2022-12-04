@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/Components/views/Users/AllUsers/AllUsers.module.css"],"names":[],"mappings":"AAAA,wBACE,SAAU,CACV,aACF,CAEA,sBACE,UAAW,CACX,aACF","file":"14.d7b32fea.chunk.css","sourcesContent":[".delete {\r\n  color: red;\r\n  padding: 0 5px;\r\n}\r\n\r\n.view {\r\n  color: blue;\r\n  padding: 0 5px;\r\n}\r\n"]}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/Components/UI/Card/Card.module.css"],"names":[],"mappings":"AAAA,wBACE,UACF","file":"28.861a4354.chunk.css","sourcesContent":[".cardHeader {\r\n  color: white;\r\n}\r\n"]}

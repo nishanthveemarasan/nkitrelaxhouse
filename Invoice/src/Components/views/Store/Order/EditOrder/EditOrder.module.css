@@ -1,0 +1,38 @@
+.note {
+  background-color: white;
+  padding: 6% 8%;
+  font-size: 130%;
+  width: 100%;
+  border-radius: 15%;
+}
+.lineBreak {
+  margin-bottom: 5%;
+}
+.customerInfo {
+  border-radius: 15% 15% 0 0;
+  background-color: white;
+  padding: 6% 8%;
+  border-bottom: 1px solid black;
+}
+.heading {
+  margin-bottom: 3%;
+}
+.font {
+  font-size: 130%;
+}
+.contactInfo {
+  border-radius: 0;
+  background-color: white;
+  padding: 6% 8%;
+  border-bottom: 1px solid black;
+}
+.orderDetails {
+  padding: 3% 0%;
+  background-color: white;
+  border-radius: 10%;
+}
+.summary {
+  padding: 3% 0%;
+  background-color: white;
+  border-radius: 10%;
+}

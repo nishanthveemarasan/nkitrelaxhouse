@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/Components/UI/Loader/Loader.module.css"],"names":[],"mappings":"AAAA,uBACE,iBAAkB,CAClB,OAAQ,CACR,QAAS,CACT,SACF","file":"5.47b8c817.chunk.css","sourcesContent":[".spinner {\r\n  position: absolute;\r\n  top: 50%;\r\n  left: 50%;\r\n  color: red;\r\n}\r\n"]}

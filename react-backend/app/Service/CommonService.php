@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Cache;
 
 class CommonService
 {
-    public static function storeItem($key, $data, $expireTime = 60)
+    public static function storeItem($key, $data, $expireTime = 160)
     {
         $expireAt = Carbon::now()->addMinutes($expireTime);
         Cache::put($key, $data, $expireAt);
