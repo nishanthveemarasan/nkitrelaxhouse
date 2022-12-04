@@ -13,7 +13,8 @@ class UpdateBankDetailsRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user();
+        return true;
+        // return auth()->user();
     }
 
     /**

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GenerateInvoicePdfRequest extends FormRequest
+class UpdateCompanyAddressRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,8 +13,8 @@ class GenerateInvoicePdfRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
         // return auth()->user();
+        return true;
     }
 
     /**
@@ -25,8 +25,11 @@ class GenerateInvoicePdfRequest extends FormRequest
     public function rules()
     {
         return [
-            'invoiceNumber' => ['required', 'numeric'],
-            'invoiceData' => ['required', 'array']
+            'lineOne' => ['required', 'string'],
+            'lineTwo' => ['required', 'string'],
+            'linethree' => ['nullable', 'string'],
+            'city' => ['required', 'string'],
+            'postCode' => ['required', 'string'],
         ];
     }
 }

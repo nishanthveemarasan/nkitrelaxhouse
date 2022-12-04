@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Varman\Chola;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GenerateInvoicePdfRequest extends FormRequest
+class UpdateBankDetailsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +25,9 @@ class GenerateInvoicePdfRequest extends FormRequest
     public function rules()
     {
         return [
-            'invoiceNumber' => ['required', 'numeric'],
-            'invoiceData' => ['required', 'array']
+            'bankName' => ['required', 'string'],
+            'sortCode' => ['required', 'string'],
+            'accountNumber' => ['required', 'string'],
         ];
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Varman\Chola;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateBillingDetailsRequest extends FormRequest
+class UpdateCompanyDetailsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,8 +13,7 @@ class UpdateBillingDetailsRequest extends FormRequest
      */
     public function authorize()
     {
-        // return auth()->user();
-        return true;
+        return auth()->user();
     }
 
     /**
@@ -25,12 +24,14 @@ class UpdateBillingDetailsRequest extends FormRequest
     public function rules()
     {
         return [
-            'billingCompanyName' => ['required', 'string'],
             'lineOne' => ['required', 'string'],
             'lineTwo' => ['required', 'string'],
             'linethree' => ['nullable', 'string'],
+            'ownerName' => ['required', 'string'],
             'city' => ['required', 'string'],
             'postCode' => ['required', 'string'],
+            'phone' => ['required', 'string'],
+            'email' => ['required', 'string'],
         ];
     }
 }

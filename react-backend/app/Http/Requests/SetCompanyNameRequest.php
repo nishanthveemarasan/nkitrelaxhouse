@@ -13,7 +13,8 @@ class SetCompanyNameRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user();
+        // return auth()->user();
+        return true;
     }
 
     /**

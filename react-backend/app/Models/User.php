@@ -75,4 +75,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(CompanyInvoice::class, 'user_id');
     }
+
+    public function CompanyInformation()
+    {
+        return $this->hasOne(CompanyInformation::class, 'user_id');
+    }
 }
